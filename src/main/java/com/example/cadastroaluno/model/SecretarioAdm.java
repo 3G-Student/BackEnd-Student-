@@ -12,12 +12,14 @@ public class SecretarioAdm {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idSecretario;
 
+    @Column(nullable = false)
     private String nome;
 
+    @Column(nullable = false)
     private Boolean ativo;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "usuario_id",  nullable = false)
     private Usuario usuario;
 
 }
