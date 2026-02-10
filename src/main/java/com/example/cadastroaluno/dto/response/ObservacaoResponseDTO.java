@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -17,12 +18,12 @@ public class ObservacaoResponseDTO {
 
     private String descricao;
 
-    private Date dataObs;
+    private LocalDate dataObs;
 
-    @Column(name = "aluno_id", nullable = false)
+    @Column(name = "id_aluno", nullable = false)
     private Integer alunoId;
 
-    @Column(name = "professor_id", nullable = false)
+    @Column(name = "id_professor", nullable = false)
     private Integer professorId;
 
 }

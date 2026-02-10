@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -18,7 +19,7 @@ public class ObservacaoRequestDTO {
     private String descricao;
 
     @NotNull(message = "A data da observação é obrigatória", groups = OnCreate.class)
-    private Date dataObs;
+    private LocalDate dataObs;
 
     @NotNull(message = "O aluno é obrigatório", groups = OnCreate.class)
     private Integer alunoId;

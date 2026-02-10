@@ -17,7 +17,7 @@ public class UsuarioResponseDTO {
 
     private String senha;
 
-    @Column(name = "tipo_id", nullable = false)
+    @Column(name = "id_tipo", nullable = false)
     private Integer tipoId;
 
 }
