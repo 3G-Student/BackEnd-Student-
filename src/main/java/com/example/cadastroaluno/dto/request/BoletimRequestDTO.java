@@ -22,6 +22,4 @@ public class BoletimRequestDTO {
     @NotNull(message = "A nota 2 é obrigatória", groups = OnCreate.class)
     private Double nota2;
 
-    private Double media;
-
 }

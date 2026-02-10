@@ -34,7 +34,6 @@ public class BoletimService {
 
         boletim.setNota1(dto.getNota1());
         boletim.setNota2(dto.getNota2());
-        boletim.setMedia(dto.getMedia());
 
         Disciplina disciplina = discplinaRepository.findById(dto.getDisciplinaId())
                 .orElseThrow(() -> new DisciplinaNaoEncontradaException(dto.getDisciplinaId()));
@@ -54,7 +53,6 @@ public class BoletimService {
         dto.setIdBoletim(boletim.getIdBoletim());
         dto.setNota1(boletim.getNota1());
         dto.setNota2(boletim.getNota2());
-        dto.setMedia(boletim.getMedia());
         dto.setDisciplinaId(boletim.getDisciplina().getIdDisciplina());
         dto.setAlunoId(boletim.getAluno().getIdAluno());
 
@@ -95,9 +93,6 @@ public class BoletimService {
         }
         if (dto.getNota2() != null) {
             boletim.setNota2(dto.getNota2());
-        }
-        if (dto.getMedia() != null) {
-            boletim.setMedia(dto.getMedia());
         }
         if (dto.getDisciplinaId() != null) {
             Disciplina disciplina = discplinaRepository.findById(dto.getDisciplinaId())

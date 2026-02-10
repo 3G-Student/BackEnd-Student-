@@ -18,8 +18,6 @@ public class Boletim {
     @Column(name = "n2")
     private Double nota2;
 
-    private Double media;
-
     @ManyToOne
     @JoinColumn(name = "disciplina_id")
     private Disciplina disciplina;
