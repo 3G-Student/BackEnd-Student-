@@ -11,11 +11,11 @@ public class ProfessorDisciplina {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "disciplina_id")
+    @JoinColumn(name = "id_disciplina")
     private Disciplina disciplina;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "professor_id")
+    @JoinColumn(name = "id_professor")
     private Professor professor;
 }

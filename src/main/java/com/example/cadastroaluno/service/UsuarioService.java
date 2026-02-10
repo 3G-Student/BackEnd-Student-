@@ -32,7 +32,6 @@ public class UsuarioService {
         Usuario usuario = new Usuario();
 
         usuario.setEmail(dto.getEmail());
-        usuario.setSenha(dto.getSenha());
 
         TipoUsuario tipoUsuario = tipoUsuarioRepository.findById(dto.getTipoId())
                 .orElseThrow(() -> new TipoUsuarioNaoEncontradoException(dto.getTipoId()));
@@ -46,7 +45,6 @@ public class UsuarioService {
         UsuarioResponseDTO dto = new UsuarioResponseDTO();
 
         dto.setEmail(usuario.getEmail());
-        dto.setSenha(usuario.getSenha());
         dto.setTipoId(usuario.getTipoUsuario().getIdTipo());
 
         return dto;
@@ -90,11 +88,11 @@ public class UsuarioService {
             usuario.setEmail(dto.getEmail());
         }
         if (dto.getSenha() != null) {
-            usuario.setSenha(dto.getSenha());
+            usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
         }
         if (dto.getTipoId() != null) {
             TipoUsuario tipoUsuario = tipoUsuarioRepository.findById(dto.getTipoId())
-                    .orElseThrow(() -> new RuntimeException("Tipo Usuário não encontrada"));
+                    .orElseThrow(() -> new RuntimeException("Tipo Usuário não encontrado"));
             usuario.setTipoUsuario(tipoUsuario);
 
         }

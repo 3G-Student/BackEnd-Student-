@@ -14,6 +14,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -32,8 +33,9 @@ public class BoletimService {
     private Boletim toEntity(BoletimRequestDTO dto) {
         Boletim boletim = new Boletim();
 
-        boletim.setNota1(dto.getNota1());
-        boletim.setNota2(dto.getNota2());
+        boletim.setNota1(BigDecimal.valueOf(dto.getNota1()));
+        boletim.setNota2(BigDecimal.valueOf(dto.getNota2()));
+
 
         Disciplina disciplina = discplinaRepository.findById(dto.getDisciplinaId())
                 .orElseThrow(() -> new DisciplinaNaoEncontradaException(dto.getDisciplinaId()));
@@ -51,13 +53,15 @@ public class BoletimService {
         BoletimResponseDTO dto = new BoletimResponseDTO();
 
         dto.setIdBoletim(boletim.getIdBoletim());
-        dto.setNota1(boletim.getNota1());
-        dto.setNota2(boletim.getNota2());
+        dto.setNota1(boletim.getNota1().doubleValue());
+        dto.setNota2(boletim.getNota2().doubleValue());
+        dto.setMedia(boletim.getMedia().doubleValue());
         dto.setDisciplinaId(boletim.getDisciplina().getIdDisciplina());
         dto.setAlunoId(boletim.getAluno().getIdAluno());
 
         return dto;
     }
+
 
     public BoletimResponseDTO buscarPorId(Integer id){
         Boletim Boletim= boletimRepository.findById(id)
@@ -89,10 +93,10 @@ public class BoletimService {
                 .orElseThrow(() -> new EntityNotFoundException("Boletim com ID " + id + " não encontrado"));
 
         if (dto.getNota1() != null) {
-            boletim.setNota1(dto.getNota1());
+            boletim.setNota1(BigDecimal.valueOf(dto.getNota1()));
         }
         if (dto.getNota2() != null) {
-            boletim.setNota2(dto.getNota2());
+            boletim.setNota2(BigDecimal.valueOf(dto.getNota2()));
         }
         if (dto.getDisciplinaId() != null) {
             Disciplina disciplina = discplinaRepository.findById(dto.getDisciplinaId())
