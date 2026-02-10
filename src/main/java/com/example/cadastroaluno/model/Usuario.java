@@ -12,12 +12,14 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUsuario;
 
+    @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String senha;
 
     @ManyToOne
-    @JoinColumn(name = "tipo_id")
+    @JoinColumn(name = "id_tipo", nullable = false)
     private TipoUsuario tipoUsuario;
 
 
