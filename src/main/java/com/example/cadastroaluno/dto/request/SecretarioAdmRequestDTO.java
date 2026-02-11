@@ -10,9 +10,6 @@ import lombok.Data;
 @Data
 public class SecretarioAdmRequestDTO {
 
-    @NotNull(message = "O id é obrigatório para atualização", groups = OnCreate.class)
-    private Integer idSecretario;
-
     @NotBlank(message = "O nome é obrigatório", groups = OnCreate.class)
     @Size(max = 100)
     private String nome;

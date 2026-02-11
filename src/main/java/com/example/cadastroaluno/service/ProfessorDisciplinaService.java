@@ -34,16 +34,4 @@ public class ProfessorDisciplinaService {
                 .toList();
     }
 
-    public ProfessorDisciplinaResponseDTO buscarPorId(Integer disciplinaId, Integer professorId) {
-
-        ProfessorDisciplinaId id = new ProfessorDisciplinaId();
-        id.setDisciplina(disciplinaId);
-        id.setProfessor(professorId);
-
-        ProfessorDisciplina entity = professorDisciplinaRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Relação professor com disciplina não encontrada"));
-
-        return toResponseDTO(entity);
-    }
-
 }

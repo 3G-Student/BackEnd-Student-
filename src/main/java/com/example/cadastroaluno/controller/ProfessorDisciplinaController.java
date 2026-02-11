@@ -26,12 +26,5 @@ public class ProfessorDisciplinaController {
         return service.listarTodos();
     }
 
-    @GetMapping("/{disciplinaId}/{professorId}")
-    public ProfessorDisciplinaResponseDTO buscarPorId(
-            @PathVariable Integer disciplinaId,
-            @PathVariable Integer professorId) {
-
-        return service.buscarPorId(disciplinaId, professorId);
-    }
 }
 

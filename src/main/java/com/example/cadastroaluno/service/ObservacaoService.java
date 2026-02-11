@@ -50,6 +50,7 @@ public class ObservacaoService {
     private ObservacaoResponseDTO toResponseDTO(Observacao observacao) {
         ObservacaoResponseDTO dto = new ObservacaoResponseDTO();
 
+        dto.setIdObservacao(observacao.getIdObservacao());
         dto.setDescricao(observacao.getDescricao());
         dto.setDataObs(observacao.getDataObs());
         dto.setProfessorId(observacao.getProfessor().getIdProfessor());

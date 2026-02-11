@@ -8,9 +8,6 @@ import jakarta.validation.constraints.NotNull;
 
 @Data
 public class UsuarioRequestDTO {
-//    message = "O id é obrigatório para atualização",
-//    @NotNull(groups = OnCreate.class)
-    private Integer idUsuario;
 
     @NotBlank(message = "O email é obrigatório", groups = OnCreate.class)
     @Email(message = "O email deve ser válido", groups = OnCreate.class)

@@ -9,8 +9,6 @@ import lombok.Data;
 @Data
 public class BoletimResponseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idBoletim;
 
     private Integer disciplinaId;

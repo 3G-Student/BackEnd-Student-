@@ -9,8 +9,6 @@ import lombok.Data;
 @Data
 public class UsuarioResponseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUsuario;
 
     private String email;

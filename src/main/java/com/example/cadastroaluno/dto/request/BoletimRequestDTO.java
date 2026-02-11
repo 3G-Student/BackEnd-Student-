@@ -7,9 +7,6 @@ import lombok.Data;
 @Data
 public class BoletimRequestDTO {
 
-    @NotNull(message = "O id é obrigatório para atualização", groups = OnCreate.class)
-    private Integer idBoletim;
-
     @NotNull(message = "A disciplina é obrigatória", groups = OnCreate.class)
     private Integer disciplinaId;
 

@@ -30,6 +30,7 @@ public class DisciplinaService {
     private DisciplinaResponseDTO toResponseDTO(Disciplina disciplina) {
         DisciplinaResponseDTO dto = new DisciplinaResponseDTO();
 
+        dto.setIdDisciplina(disciplina.getIdDisciplina());
         dto.setNome(disciplina.getNome());
 
         return dto;
