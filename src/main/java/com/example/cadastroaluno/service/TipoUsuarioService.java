@@ -29,6 +29,7 @@ public class TipoUsuarioService {
     private TipoUsuarioResponseDTO toResponseDTO(TipoUsuario tipoUsuario) {
         TipoUsuarioResponseDTO dto = new TipoUsuarioResponseDTO();
 
+        dto.setIdTipo(tipoUsuario.getIdTipo());
         dto.setDescricao(tipoUsuario.getDescricao());
 
         return dto;
@@ -36,7 +37,7 @@ public class TipoUsuarioService {
 
     public TipoUsuarioResponseDTO buscarPorId(Integer id){
         TipoUsuario tipoUsuario= tipoUsuarioRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("TipoUsuario não encontrada"));
+                .orElseThrow(() -> new EntityNotFoundException("Tipo Usuario não encontrada"));
         return toResponseDTO(tipoUsuario);
     }
     public List<TipoUsuarioResponseDTO> listarTipoUsuario() {

@@ -8,8 +8,6 @@ import lombok.Data;
 @Data
 public class DisciplinaResponseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idDisciplina;
 
     private String nome;

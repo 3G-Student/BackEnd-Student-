@@ -8,10 +8,7 @@ import lombok.Data;
 @Data
 public class TipoUsuarioResponseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idTipo;
-
     private String descricao;
 
 }

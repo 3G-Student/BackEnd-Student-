@@ -47,6 +47,7 @@ public class ProfessorService {
     private ProfessorResponseDTO toResponseDTO(Professor professor) {
         ProfessorResponseDTO dto = new ProfessorResponseDTO();
 
+        dto.setIdProfessor(professor.getIdProfessor());
         dto.setNome(professor.getNome());
         dto.setAtivo(professor.isAtivo());
         dto.setUsuarioId(professor.getUsuario().getIdUsuario());

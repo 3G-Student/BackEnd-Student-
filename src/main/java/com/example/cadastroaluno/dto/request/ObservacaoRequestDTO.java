@@ -12,9 +12,6 @@ import java.util.Date;
 @Data
 public class ObservacaoRequestDTO {
 
-    @NotNull(message = "O id é obrigatório para atualização", groups = OnCreate.class)
-    private Integer idObservacao;
-
     @NotBlank(message = "A descrição é obrigatória", groups = OnCreate.class)
     private String descricao;
 

@@ -41,6 +41,7 @@ public class SecretarioAdmService {
     private SecretarioAdmResponseDTO toResponseDTO(SecretarioAdm secretarioAdm) {
         SecretarioAdmResponseDTO dto = new SecretarioAdmResponseDTO();
 
+        dto.setIdSecretario(secretarioAdm.getIdSecretario());
         dto.setNome(secretarioAdm.getNome());
         dto.setAtivo(secretarioAdm.getAtivo());
         dto.setUsuarioId(secretarioAdm.getUsuario().getIdUsuario());

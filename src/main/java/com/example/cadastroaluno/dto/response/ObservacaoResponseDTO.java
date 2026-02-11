@@ -12,8 +12,6 @@ import java.util.Date;
 @Data
 public class ObservacaoResponseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idObservacao;
 
     private String descricao;

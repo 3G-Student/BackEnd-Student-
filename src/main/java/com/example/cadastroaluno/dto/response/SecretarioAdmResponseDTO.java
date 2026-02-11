@@ -9,8 +9,6 @@ import lombok.Data;
 @Data
 public class SecretarioAdmResponseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idSecretario;
 
     private String nome;

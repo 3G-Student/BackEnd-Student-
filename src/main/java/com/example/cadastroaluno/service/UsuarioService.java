@@ -44,6 +44,7 @@ public class UsuarioService {
     private UsuarioResponseDTO toResponseDTO(Usuario usuario) {
         UsuarioResponseDTO dto = new UsuarioResponseDTO();
 
+        dto.setIdUsuario(usuario.getIdUsuario());
         dto.setEmail(usuario.getEmail());
         dto.setTipoId(usuario.getTipoUsuario().getIdTipo());
 
