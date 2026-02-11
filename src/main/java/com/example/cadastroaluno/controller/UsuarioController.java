@@ -1,11 +1,14 @@
 package com.example.cadastroaluno.controller;
 
+import com.example.cadastroaluno.dto.request.UsuarioLoginDTO;
 import com.example.cadastroaluno.dto.request.UsuarioRequestDTO;
+import com.example.cadastroaluno.dto.response.PerfilUsuarioResponseDTO;
 import com.example.cadastroaluno.dto.response.UsuarioResponseDTO;
 import com.example.cadastroaluno.service.UsuarioService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
 import jakarta.validation.groups.Default;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +55,26 @@ public class UsuarioController {
     public ResponseEntity<String> excluirUsuario(@PathVariable Integer id) {
         usuarioService.excluirUsuario(id);
         return ResponseEntity.ok("Usuario excluído com sucesso!");
+    }
+
+    //Querys
+
+    @GetMapping("/{id}/perfil")
+    public ResponseEntity<?> buscarPerfil(@PathVariable Integer id) {
+        PerfilUsuarioResponseDTO perfil = usuarioService.buscarPerfilUsuario(id);
+        if (perfil == null) {
+            return ResponseEntity.status(404).body("Usuário não encontrado");
+        }
+        return ResponseEntity.ok(perfil);
+    }
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UsuarioLoginDTO loginDTO) {
+        Integer tipoUsuarioId = usuarioService.validarLogin(loginDTO);
+        if (tipoUsuarioId == null) {
+            return ResponseEntity .status(HttpStatus.UNAUTHORIZED)
+                    .body("Email ou senha inválidos");
+        }
+        return ResponseEntity.ok(tipoUsuarioId);
     }
 
 }
