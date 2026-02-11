@@ -1,6 +1,8 @@
 package com.example.cadastroaluno.service;
 
+import com.example.cadastroaluno.dto.request.UsuarioLoginDTO;
 import com.example.cadastroaluno.dto.request.UsuarioRequestDTO;
+import com.example.cadastroaluno.dto.response.PerfilUsuarioResponseDTO;
 import com.example.cadastroaluno.dto.response.UsuarioResponseDTO;
 import com.example.cadastroaluno.exception.EmailDuplicadoException;
 import com.example.cadastroaluno.exception.TipoUsuarioNaoEncontradoException;
@@ -13,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -100,6 +103,29 @@ public class UsuarioService {
 
         Usuario atualizado = usuarioRepository.save(usuario);
         return toResponseDTO(atualizado);
+    }
+
+    public PerfilUsuarioResponseDTO buscarPerfilUsuario(Integer id) {
+        return usuarioRepository.buscarPerfilUsuario(id);
+    }
+
+    public Integer validarLogin(UsuarioLoginDTO loginDTO) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByLogin(loginDTO.getEmail());
+
+        if (usuarioOpt.isEmpty()) {
+            return null;
+        }
+
+        Usuario usuario = usuarioOpt.get();
+
+        boolean senhaValida = passwordEncoder
+                .matches(loginDTO.getSenha(), usuario.getSenha());
+
+        if (!senhaValida) {
+            return null;
+        }
+
+        return usuario.getTipoUsuario().getIdTipo();
     }
 
 }
