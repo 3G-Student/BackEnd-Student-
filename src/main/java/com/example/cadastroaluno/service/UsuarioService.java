@@ -6,6 +6,7 @@ import com.example.cadastroaluno.dto.response.PerfilUsuarioResponseDTO;
 import com.example.cadastroaluno.dto.response.UsuarioResponseDTO;
 import com.example.cadastroaluno.exception.EmailDuplicadoException;
 import com.example.cadastroaluno.exception.TipoUsuarioNaoEncontradoException;
+import com.example.cadastroaluno.exception.UsuarioNaoEncontradoException;
 import com.example.cadastroaluno.model.TipoUsuario;
 import com.example.cadastroaluno.model.Usuario;
 import com.example.cadastroaluno.repository.TipoUsuarioRepository;
@@ -56,7 +57,7 @@ public class UsuarioService {
 
     public UsuarioResponseDTO buscarPorId(Integer id){
         Usuario usuario= usuarioRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException(id));
         return toResponseDTO(usuario);
     }
     public List<UsuarioResponseDTO> listarUsuario() {
@@ -93,12 +94,6 @@ public class UsuarioService {
         }
         if (dto.getSenha() != null) {
             usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
-        }
-        if (dto.getTipoId() != null) {
-            TipoUsuario tipoUsuario = tipoUsuarioRepository.findById(dto.getTipoId())
-                    .orElseThrow(() -> new RuntimeException("Tipo Usuário não encontrado"));
-            usuario.setTipoUsuario(tipoUsuario);
-
         }
 
         Usuario atualizado = usuarioRepository.save(usuario);

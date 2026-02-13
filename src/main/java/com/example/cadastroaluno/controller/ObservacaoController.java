@@ -34,7 +34,7 @@ public class ObservacaoController {
     }
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<String> inserirObservacao(@Validated({OnCreate.class, Default.class})
+    public ResponseEntity<String> inserirObservacao(@Validated({OnCreate.class})
                                                     @RequestBody ObservacaoRequestDTO dto) {
         observacaoService.cadastrarObservacao(dto);
         return ResponseEntity.ok("Observacao inserido com sucesso!");
@@ -42,7 +42,7 @@ public class ObservacaoController {
 
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarObservacao(@PathVariable Integer id,
-                                                      @Validated({OnPatch.class, Default.class})
+                                                      @Validated({OnPatch.class})
                                                       @RequestBody ObservacaoRequestDTO dto) {
         observacaoService.atualizarObservacao(id, dto);
         return ResponseEntity.ok("Observacao atualizado com sucesso!");

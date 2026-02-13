@@ -2,7 +2,8 @@ package com.example.cadastroaluno.service;
 
 import com.example.cadastroaluno.dto.request.DisciplinaRequestDTO;
 import com.example.cadastroaluno.dto.response.DisciplinaResponseDTO;
-import com.example.cadastroaluno.exception.MatriculaDuplicadoException;
+import com.example.cadastroaluno.exception.DisciplinaNaoEncontradaException;
+import com.example.cadastroaluno.exception.MatriculaDuplicadaException;
 import com.example.cadastroaluno.model.Disciplina;
 import com.example.cadastroaluno.repository.DisciplinaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -49,9 +50,9 @@ public class DisciplinaService {
     }
 
     public DisciplinaResponseDTO cadastrarDisciplina(DisciplinaRequestDTO dto) {
-        if (disciplinaRepository.existsByNome(dto.getNome())) {
-            throw new MatriculaDuplicadoException(dto.getNome());
-        }
+//        if (disciplinaRepository.existsByNome(dto.getNome())) {
+//            throw new NomeDuplicadoException(dto.getNome());
+//        }
 
         Disciplina disciplina = toEntity(dto);
         disciplina = disciplinaRepository.save(disciplina);
@@ -60,7 +61,7 @@ public class DisciplinaService {
 
     public void excluirDisciplina(Integer id) {
         Disciplina disciplina = disciplinaRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Disciplina com ID " + id + " não encontrada"));
+                .orElseThrow(() -> new DisciplinaNaoEncontradaException(id));
 
         disciplinaRepository.delete(disciplina);
     }

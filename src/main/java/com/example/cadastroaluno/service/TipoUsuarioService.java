@@ -2,6 +2,7 @@ package com.example.cadastroaluno.service;
 
 import com.example.cadastroaluno.dto.request.TipoUsuarioRequestDTO;
 import com.example.cadastroaluno.dto.response.TipoUsuarioResponseDTO;
+import com.example.cadastroaluno.exception.TipoUsuarioNaoEncontradoException;
 import com.example.cadastroaluno.model.TipoUsuario;
 import com.example.cadastroaluno.repository.TipoUsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -37,7 +38,7 @@ public class TipoUsuarioService {
 
     public TipoUsuarioResponseDTO buscarPorId(Integer id){
         TipoUsuario tipoUsuario= tipoUsuarioRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Tipo Usuario não encontrada"));
+                .orElseThrow(() -> new TipoUsuarioNaoEncontradoException(id));
         return toResponseDTO(tipoUsuario);
     }
     public List<TipoUsuarioResponseDTO> listarTipoUsuario() {

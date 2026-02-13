@@ -2,9 +2,7 @@ package com.example.cadastroaluno.service;
 
 import com.example.cadastroaluno.dto.request.ProfessorRequestDTO;
 import com.example.cadastroaluno.dto.response.ProfessorResponseDTO;
-import com.example.cadastroaluno.exception.AlunoNaoEncontradoException;
-import com.example.cadastroaluno.exception.DisciplinaNaoEncontradaException;
-import com.example.cadastroaluno.exception.UsuarioNaoEncontradoException;
+import com.example.cadastroaluno.exception.*;
 import com.example.cadastroaluno.model.Aluno;
 import com.example.cadastroaluno.model.Professor;
 import com.example.cadastroaluno.model.Disciplina;
@@ -22,11 +20,11 @@ import java.util.List;
 public class ProfessorService {
 
 
-    private final ProfessorRepository ProfessorRepository;
+    private final ProfessorRepository professorRepository;
     private final UsuarioRepository usuarioRepository;
 
-    public ProfessorService(ProfessorRepository ProfessorRepository, UsuarioRepository usuarioRepository) {
-        this.ProfessorRepository = ProfessorRepository;
+    public ProfessorService(ProfessorRepository professorRepository, UsuarioRepository usuarioRepository) {
+        this.professorRepository = professorRepository;
         this.usuarioRepository = usuarioRepository;
     }
 
@@ -56,32 +54,47 @@ public class ProfessorService {
     }
 
     public ProfessorResponseDTO buscarPorId(Integer id){
-        Professor Professor= ProfessorRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Professor não encontrado"));
+        Professor Professor= professorRepository.findById(id)
+                .orElseThrow(() -> new ProfessorNaoEncontradoException(id));
         return toResponseDTO(Professor);
     }
     public List<ProfessorResponseDTO> listarProfessor() {
-        return ProfessorRepository.findAll()
+        return professorRepository.findAll()
                 .stream()
                 .map(this::toResponseDTO)
                 .toList();
     }
 
     public ProfessorResponseDTO cadastrarProfessor(ProfessorRequestDTO dto) {
-        Professor Professor = toEntity(dto);
-        Professor = ProfessorRepository.save(Professor);
-        return toResponseDTO(Professor);
+
+        if (professorRepository.existsByUsuario_IdUsuario(dto.getUsuarioId())) {
+            throw new UsuarioJaPossuiProfessorException();
+        }
+
+        Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
+                .orElseThrow(() -> new UsuarioNaoEncontradoException(dto.getUsuarioId()));
+
+        if (usuario.getTipoUsuario().getIdTipo() != 2) {
+            throw new TipoUsuarioInvalidoException();
+        }
+
+        Professor professor = toEntity(dto);
+        professor.setUsuario(usuario);
+        professor = professorRepository.save(professor);
+
+        return toResponseDTO(professor);
     }
 
+
     public void excluirProfessor(Integer id) {
-        Professor Professor = ProfessorRepository.findById(id)
+        Professor professor = professorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Professor com ID " + id + " não encontrado"));
 
-        ProfessorRepository.delete(Professor);
+        professorRepository.delete(professor);
     }
 
     public ProfessorResponseDTO atualizarProfessor(Integer id, ProfessorRequestDTO dto) {
-        Professor professor = ProfessorRepository.findById(id)
+        Professor professor = professorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Professor com ID " + id + " não encontrado"));
 
         if (dto.getNome() != null) {
@@ -97,7 +110,7 @@ public class ProfessorService {
 
         }
 
-        Professor atualizado = ProfessorRepository.save(professor);
+        Professor atualizado = professorRepository.save(professor);
         return toResponseDTO(atualizado);
     }
 

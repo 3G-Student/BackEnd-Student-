@@ -45,7 +45,7 @@ public class UsuarioController {
 
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarUsuario(@PathVariable Integer id,
-                                                      @Validated({OnPatch.class, Default.class})
+                                                      @Validated({OnPatch.class})
                                                       @RequestBody UsuarioRequestDTO dto) {
         usuarioService.atualizarUsuario(id, dto);
         return ResponseEntity.ok("Usuario atualizado com sucesso!");
