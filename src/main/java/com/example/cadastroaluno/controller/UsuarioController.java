@@ -2,6 +2,7 @@ package com.example.cadastroaluno.controller;
 
 import com.example.cadastroaluno.dto.request.UsuarioLoginDTO;
 import com.example.cadastroaluno.dto.request.UsuarioRequestDTO;
+import com.example.cadastroaluno.dto.request.UsuarioUpdateRequestDTO;
 import com.example.cadastroaluno.dto.response.PerfilUsuarioResponseDTO;
 import com.example.cadastroaluno.dto.response.UsuarioResponseDTO;
 import com.example.cadastroaluno.service.UsuarioService;
@@ -45,8 +46,8 @@ public class UsuarioController {
 
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarUsuario(@PathVariable Integer id,
-                                                      @Validated({OnPatch.class, Default.class})
-                                                      @RequestBody UsuarioRequestDTO dto) {
+                                                      @Validated({OnPatch.class})
+                                                      @RequestBody UsuarioUpdateRequestDTO dto) {
         usuarioService.atualizarUsuario(id, dto);
         return ResponseEntity.ok("Usuario atualizado com sucesso!");
     }
@@ -59,7 +60,7 @@ public class UsuarioController {
 
     //Querys
 
-    @GetMapping("/{id}/perfil")
+    @GetMapping("/perfil/{id}")
     public ResponseEntity<?> buscarPerfil(@PathVariable Integer id) {
         PerfilUsuarioResponseDTO perfil = usuarioService.buscarPerfilUsuario(id);
         if (perfil == null) {
@@ -67,6 +68,7 @@ public class UsuarioController {
         }
         return ResponseEntity.ok(perfil);
     }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UsuarioLoginDTO loginDTO) {
         Integer tipoUsuarioId = usuarioService.validarLogin(loginDTO);

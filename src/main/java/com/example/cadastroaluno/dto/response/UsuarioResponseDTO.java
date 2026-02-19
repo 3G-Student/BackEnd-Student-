@@ -13,8 +13,6 @@ public class UsuarioResponseDTO {
 
     private String email;
 
-    private String senha;
-
     @Column(name = "id_tipo", nullable = false)
     private Integer tipoId;
 

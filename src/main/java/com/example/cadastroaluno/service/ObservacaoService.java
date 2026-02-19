@@ -1,8 +1,11 @@
 package com.example.cadastroaluno.service;
 
 import com.example.cadastroaluno.dto.request.ObservacaoRequestDTO;
+import com.example.cadastroaluno.dto.request.ObservacaoUpdateRequestDTO;
 import com.example.cadastroaluno.dto.response.ObservacaoResponseDTO;
+import com.example.cadastroaluno.dto.response.ObservacaoUpdateResponseDTO;
 import com.example.cadastroaluno.exception.AlunoNaoEncontradoException;
+import com.example.cadastroaluno.exception.ObservacaoNaoEncontradaException;
 import com.example.cadastroaluno.exception.ProfessorNaoEncontradoException;
 import com.example.cadastroaluno.model.Aluno;
 import com.example.cadastroaluno.model.Observacao;
@@ -59,9 +62,19 @@ public class ObservacaoService {
         return dto;
     }
 
+    private ObservacaoUpdateResponseDTO toUpdateResponseDTO(Observacao observacao) {
+        ObservacaoUpdateResponseDTO dto = new ObservacaoUpdateResponseDTO();
+
+        dto.setIdObservacao(observacao.getIdObservacao());
+        dto.setDescricao(observacao.getDescricao());
+        dto.setDataObs(observacao.getDataObs());
+
+        return dto;
+    }
+
     public ObservacaoResponseDTO buscarPorId(Integer id){
         Observacao observacao= ObservacaoRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Observacao não encontrada"));
+                .orElseThrow(() -> new ObservacaoNaoEncontradaException(id));
         return toResponseDTO(observacao);
     }
     public List<ObservacaoResponseDTO> listarObservacao() {
@@ -84,7 +97,7 @@ public class ObservacaoService {
         ObservacaoRepository.delete(observacao);
     }
 
-    public ObservacaoResponseDTO atualizarObservacao(Integer id, ObservacaoRequestDTO dto) {
+    public ObservacaoUpdateResponseDTO atualizarObservacao(Integer id, ObservacaoUpdateRequestDTO dto) {
         Observacao observacao = ObservacaoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Observacao com ID " + id + " não encontrado"));
 
@@ -94,19 +107,9 @@ public class ObservacaoService {
         if (dto.getDataObs() != null) {
             observacao.setDataObs(dto.getDataObs());
         }
-        if (dto.getProfessorId() != null) {
-            Professor professor = professorRepository.findById(dto.getProfessorId())
-                    .orElseThrow(() -> new RuntimeException("Disciplina não encontrada"));
-            observacao.setProfessor(professor);
-        }
-        if (dto.getAlunoId() != null) {
-            Aluno aluno = alunoRepository.findById(dto.getAlunoId())
-                    .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
-            observacao.setAluno(aluno);
-        }
 
         Observacao atualizado = ObservacaoRepository.save(observacao);
-        return toResponseDTO(atualizado);
+        return toUpdateResponseDTO(atualizado);
     }
     
 }

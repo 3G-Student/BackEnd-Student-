@@ -2,6 +2,9 @@ package com.example.cadastroaluno.service;
 
 import com.example.cadastroaluno.dto.request.SecretarioAdmRequestDTO;
 import com.example.cadastroaluno.dto.response.SecretarioAdmResponseDTO;
+import com.example.cadastroaluno.exception.SecretarioAdmNaoEncontradoException;
+import com.example.cadastroaluno.exception.TipoUsuarioInvalidoException;
+import com.example.cadastroaluno.exception.UsuarioJaPossuiSecretarioException;
 import com.example.cadastroaluno.exception.UsuarioNaoEncontradoException;
 import com.example.cadastroaluno.model.Aluno;
 import com.example.cadastroaluno.model.SecretarioAdm;
@@ -51,7 +54,7 @@ public class SecretarioAdmService {
 
     public SecretarioAdmResponseDTO buscarPorId(Integer id){
         SecretarioAdm SecretarioAdm= secretarioAdmRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("SecretarioAdm não encontrado"));
+                .orElseThrow(() -> new SecretarioAdmNaoEncontradoException(id));
         return toResponseDTO(SecretarioAdm);
     }
     public List<SecretarioAdmResponseDTO> listarSecretarioAdm() {
@@ -62,8 +65,22 @@ public class SecretarioAdmService {
     }
 
     public SecretarioAdmResponseDTO cadastrarSecretarioAdm(SecretarioAdmRequestDTO dto) {
+
+        if (secretarioAdmRepository.existsByUsuario_IdUsuario(dto.getUsuarioId())) {
+            throw new UsuarioJaPossuiSecretarioException();
+        }
+
+        Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
+                .orElseThrow(() -> new UsuarioNaoEncontradoException(dto.getUsuarioId()));
+
+        if (usuario.getTipoUsuario().getIdTipo() != 3) {
+            throw new TipoUsuarioInvalidoException();
+        }
+
         SecretarioAdm secretarioAdm = toEntity(dto);
+        secretarioAdm.setUsuario(usuario);
         secretarioAdm = secretarioAdmRepository.save(secretarioAdm);
+
         return toResponseDTO(secretarioAdm);
     }
 

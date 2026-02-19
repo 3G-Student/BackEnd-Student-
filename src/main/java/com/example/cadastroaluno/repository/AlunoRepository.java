@@ -10,4 +10,5 @@ public interface AlunoRepository extends JpaRepository<Aluno, Integer> {
     //métodos derivados
     boolean existsByMatricula(String matricula);
 
+    boolean existsByUsuario_IdUsuario(Integer usuarioId);
 }

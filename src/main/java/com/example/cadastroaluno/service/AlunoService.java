@@ -2,8 +2,7 @@ package com.example.cadastroaluno.service;
 
 import com.example.cadastroaluno.dto.request.AlunoRequestDTO;
 import com.example.cadastroaluno.dto.response.AlunoResponseDTO;
-import com.example.cadastroaluno.exception.MatriculaDuplicadoException;
-import com.example.cadastroaluno.exception.UsuarioNaoEncontradoException;
+import com.example.cadastroaluno.exception.*;
 import com.example.cadastroaluno.model.Aluno;
 import com.example.cadastroaluno.model.Usuario;
 import com.example.cadastroaluno.repository.AlunoRepository;
@@ -53,9 +52,10 @@ public class AlunoService {
 
     public AlunoResponseDTO buscarPorId(Integer id){
         Aluno aluno= alunoRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Aluno não encontrado"));
+                .orElseThrow(() -> new AlunoNaoEncontradoException(id));
         return toResponseDTO(aluno);
     }
+
     public List<AlunoResponseDTO> listarAluno() {
         return alunoRepository.findAll()
                 .stream()
@@ -65,13 +65,27 @@ public class AlunoService {
 
     public AlunoResponseDTO cadastrarAluno(AlunoRequestDTO dto) {
         if (alunoRepository.existsByMatricula(dto.getMatricula())) {
-            throw new MatriculaDuplicadoException(dto.getMatricula());
+            throw new MatriculaDuplicadaException(dto.getMatricula());
+        }
+
+        if (alunoRepository.existsByUsuario_IdUsuario(dto.getUsuarioId())) {
+            throw new UsuarioJaPossuiAlunoException();
+        }
+
+        Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
+                .orElseThrow(() -> new UsuarioNaoEncontradoException(dto.getUsuarioId()));
+
+        if (usuario.getTipoUsuario().getIdTipo() != 1) {
+            throw new TipoUsuarioInvalidoException();
         }
 
         Aluno aluno = toEntity(dto);
+        aluno.setUsuario(usuario);
         aluno = alunoRepository.save(aluno);
+
         return toResponseDTO(aluno);
     }
+
 
     public void excluirAluno(Integer id) {
         Aluno aluno = alunoRepository.findById(id)

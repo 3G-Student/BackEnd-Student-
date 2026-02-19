@@ -3,6 +3,7 @@ package com.example.cadastroaluno.service;
 import com.example.cadastroaluno.dto.request.BoletimRequestDTO;
 import com.example.cadastroaluno.dto.response.BoletimResponseDTO;
 import com.example.cadastroaluno.exception.AlunoNaoEncontradoException;
+import com.example.cadastroaluno.exception.BoletimNaoEncontradoException;
 import com.example.cadastroaluno.exception.DisciplinaNaoEncontradaException;
 import com.example.cadastroaluno.model.Aluno;
 import com.example.cadastroaluno.model.Boletim;
@@ -55,17 +56,18 @@ public class BoletimService {
         dto.setIdBoletim(boletim.getIdBoletim());
         dto.setNota1(boletim.getNota1().doubleValue());
         dto.setNota2(boletim.getNota2().doubleValue());
-        dto.setMedia(boletim.getMedia().doubleValue());
         dto.setDisciplinaId(boletim.getDisciplina().getIdDisciplina());
         dto.setAlunoId(boletim.getAluno().getIdAluno());
+        if (boletim.getMedia() != null) {
+            dto.setMedia(boletim.getMedia().doubleValue());
+        }
 
         return dto;
     }
 
-
     public BoletimResponseDTO buscarPorId(Integer id){
         Boletim Boletim= boletimRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Boletim não encontrado"));
+                .orElseThrow(() -> new BoletimNaoEncontradoException(id));
         return toResponseDTO(Boletim);
     }
     public List<BoletimResponseDTO> listarBoletim() {

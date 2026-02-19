@@ -2,10 +2,13 @@ package com.example.cadastroaluno.service;
 
 import com.example.cadastroaluno.dto.request.UsuarioLoginDTO;
 import com.example.cadastroaluno.dto.request.UsuarioRequestDTO;
+import com.example.cadastroaluno.dto.request.UsuarioUpdateRequestDTO;
 import com.example.cadastroaluno.dto.response.PerfilUsuarioResponseDTO;
 import com.example.cadastroaluno.dto.response.UsuarioResponseDTO;
+import com.example.cadastroaluno.dto.response.UsuarioUpdateResponseDTO;
 import com.example.cadastroaluno.exception.EmailDuplicadoException;
 import com.example.cadastroaluno.exception.TipoUsuarioNaoEncontradoException;
+import com.example.cadastroaluno.exception.UsuarioNaoEncontradoException;
 import com.example.cadastroaluno.model.TipoUsuario;
 import com.example.cadastroaluno.model.Usuario;
 import com.example.cadastroaluno.repository.TipoUsuarioRepository;
@@ -54,9 +57,18 @@ public class UsuarioService {
         return dto;
     }
 
+    private UsuarioUpdateResponseDTO toResponseUpdateDTO(Usuario usuario) {
+        UsuarioUpdateResponseDTO dto = new UsuarioUpdateResponseDTO();
+
+        dto.setIdUsuario(usuario.getIdUsuario());
+        dto.setEmail(usuario.getEmail());
+
+        return dto;
+    }
+
     public UsuarioResponseDTO buscarPorId(Integer id){
         Usuario usuario= usuarioRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException(id));
         return toResponseDTO(usuario);
     }
     public List<UsuarioResponseDTO> listarUsuario() {
@@ -84,7 +96,7 @@ public class UsuarioService {
         usuarioRepository.delete(usuario);
     }
 
-    public UsuarioResponseDTO atualizarUsuario(Integer id, UsuarioRequestDTO dto) {
+    public UsuarioUpdateResponseDTO atualizarUsuario(Integer id, UsuarioUpdateRequestDTO dto) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuario com ID " + id + " não encontrado"));
 
@@ -94,15 +106,9 @@ public class UsuarioService {
         if (dto.getSenha() != null) {
             usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
         }
-        if (dto.getTipoId() != null) {
-            TipoUsuario tipoUsuario = tipoUsuarioRepository.findById(dto.getTipoId())
-                    .orElseThrow(() -> new RuntimeException("Tipo Usuário não encontrado"));
-            usuario.setTipoUsuario(tipoUsuario);
-
-        }
 
         Usuario atualizado = usuarioRepository.save(usuario);
-        return toResponseDTO(atualizado);
+        return toResponseUpdateDTO(atualizado);
     }
 
     public PerfilUsuarioResponseDTO buscarPerfilUsuario(Integer id) {

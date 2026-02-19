@@ -1,6 +1,7 @@
 package com.example.cadastroaluno.controller;
 
 import com.example.cadastroaluno.dto.request.ObservacaoRequestDTO;
+import com.example.cadastroaluno.dto.request.ObservacaoUpdateRequestDTO;
 import com.example.cadastroaluno.dto.response.ObservacaoResponseDTO;
 import com.example.cadastroaluno.service.ObservacaoService;
 import com.example.cadastroaluno.validation.OnCreate;
@@ -34,7 +35,7 @@ public class ObservacaoController {
     }
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<String> inserirObservacao(@Validated({OnCreate.class, Default.class})
+    public ResponseEntity<String> inserirObservacao(@Validated({OnCreate.class})
                                                     @RequestBody ObservacaoRequestDTO dto) {
         observacaoService.cadastrarObservacao(dto);
         return ResponseEntity.ok("Observacao inserido com sucesso!");
@@ -42,8 +43,8 @@ public class ObservacaoController {
 
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarObservacao(@PathVariable Integer id,
-                                                      @Validated({OnPatch.class, Default.class})
-                                                      @RequestBody ObservacaoRequestDTO dto) {
+                                                      @Validated({OnPatch.class})
+                                                      @RequestBody ObservacaoUpdateRequestDTO dto) {
         observacaoService.atualizarObservacao(id, dto);
         return ResponseEntity.ok("Observacao atualizado com sucesso!");
     }
