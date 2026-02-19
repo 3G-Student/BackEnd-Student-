@@ -56,9 +56,11 @@ public class BoletimService {
         dto.setIdBoletim(boletim.getIdBoletim());
         dto.setNota1(boletim.getNota1().doubleValue());
         dto.setNota2(boletim.getNota2().doubleValue());
-        dto.setMedia(boletim.getMedia().doubleValue());
         dto.setDisciplinaId(boletim.getDisciplina().getIdDisciplina());
         dto.setAlunoId(boletim.getAluno().getIdAluno());
+        if (boletim.getMedia() != null) {
+            dto.setMedia(boletim.getMedia().doubleValue());
+        }
 
         return dto;
     }

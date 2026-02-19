@@ -2,8 +2,10 @@ package com.example.cadastroaluno.service;
 
 import com.example.cadastroaluno.dto.request.UsuarioLoginDTO;
 import com.example.cadastroaluno.dto.request.UsuarioRequestDTO;
+import com.example.cadastroaluno.dto.request.UsuarioUpdateRequestDTO;
 import com.example.cadastroaluno.dto.response.PerfilUsuarioResponseDTO;
 import com.example.cadastroaluno.dto.response.UsuarioResponseDTO;
+import com.example.cadastroaluno.dto.response.UsuarioUpdateResponseDTO;
 import com.example.cadastroaluno.exception.EmailDuplicadoException;
 import com.example.cadastroaluno.exception.TipoUsuarioNaoEncontradoException;
 import com.example.cadastroaluno.exception.UsuarioNaoEncontradoException;
@@ -55,6 +57,15 @@ public class UsuarioService {
         return dto;
     }
 
+    private UsuarioUpdateResponseDTO toResponseUpdateDTO(Usuario usuario) {
+        UsuarioUpdateResponseDTO dto = new UsuarioUpdateResponseDTO();
+
+        dto.setIdUsuario(usuario.getIdUsuario());
+        dto.setEmail(usuario.getEmail());
+
+        return dto;
+    }
+
     public UsuarioResponseDTO buscarPorId(Integer id){
         Usuario usuario= usuarioRepository.findById(id)
                 .orElseThrow(() -> new UsuarioNaoEncontradoException(id));
@@ -85,7 +96,7 @@ public class UsuarioService {
         usuarioRepository.delete(usuario);
     }
 
-    public UsuarioResponseDTO atualizarUsuario(Integer id, UsuarioRequestDTO dto) {
+    public UsuarioUpdateResponseDTO atualizarUsuario(Integer id, UsuarioUpdateRequestDTO dto) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuario com ID " + id + " não encontrado"));
 
@@ -97,7 +108,7 @@ public class UsuarioService {
         }
 
         Usuario atualizado = usuarioRepository.save(usuario);
-        return toResponseDTO(atualizado);
+        return toResponseUpdateDTO(atualizado);
     }
 
     public PerfilUsuarioResponseDTO buscarPerfilUsuario(Integer id) {
