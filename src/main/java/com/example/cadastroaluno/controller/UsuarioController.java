@@ -1,5 +1,6 @@
 package com.example.cadastroaluno.controller;
 
+import com.example.cadastroaluno.dto.request.SenhaRequestDTO;
 import com.example.cadastroaluno.dto.request.UsuarioLoginDTO;
 import com.example.cadastroaluno.dto.request.UsuarioRequestDTO;
 import com.example.cadastroaluno.dto.request.UsuarioUpdateRequestDTO;
@@ -8,6 +9,7 @@ import com.example.cadastroaluno.dto.response.UsuarioResponseDTO;
 import com.example.cadastroaluno.service.UsuarioService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
+import jakarta.validation.Valid;
 import jakarta.validation.groups.Default;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +58,16 @@ public class UsuarioController {
     public ResponseEntity<String> excluirUsuario(@PathVariable Integer id) {
         usuarioService.excluirUsuario(id);
         return ResponseEntity.ok("Usuario excluído com sucesso!");
+    }
+
+    @PatchMapping("/atualizarSenha/{id}")
+    public ResponseEntity<String> atualizarSenha(
+            @PathVariable Integer id,
+            @Valid @RequestBody SenhaRequestDTO request) {
+
+        usuarioService.atualizarSenha(id, request.getNovaSenha());
+
+        return ResponseEntity.ok("Senha atualizada com sucesso!");
     }
 
     //Querys

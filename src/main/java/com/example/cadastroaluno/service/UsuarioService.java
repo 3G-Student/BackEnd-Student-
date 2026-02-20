@@ -134,4 +134,15 @@ public class UsuarioService {
         return usuario.getTipoUsuario().getIdTipo();
     }
 
+    public UsuarioResponseDTO atualizarSenha(Integer id, String novaSenha) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario com ID " + id + " não encontrado"));
+
+        String senhaCriptografada = passwordEncoder.encode(novaSenha);
+        usuario.setSenha(senhaCriptografada);
+
+        Usuario atualizado = usuarioRepository.save(usuario);
+        return toResponseDTO(atualizado);
+    }
+
 }
