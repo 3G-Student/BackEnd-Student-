@@ -2,6 +2,7 @@ package com.example.cadastroaluno.controller;
 
 import com.example.cadastroaluno.dto.request.AlunoRequestDTO;
 import com.example.cadastroaluno.dto.response.AlunoResponseDTO;
+import com.example.cadastroaluno.model.Aluno;
 import com.example.cadastroaluno.service.AlunoService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
@@ -53,5 +54,12 @@ public class AlunoController {
     public ResponseEntity<String> excluirAluno(@PathVariable Integer id) {
         alunoService.excluirAluno(id);
         return ResponseEntity.ok("Aluno excluído com sucesso!");
+    }
+
+    @GetMapping("/alunosAtivos")
+    public ResponseEntity<List<Aluno>> listarPorAtivo(
+            @RequestParam Boolean ativo) {
+
+        return ResponseEntity.ok(alunoService.listarPorAtivo(ativo));
     }
 }

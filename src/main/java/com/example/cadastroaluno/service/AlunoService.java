@@ -117,4 +117,8 @@ public class AlunoService {
         return toResponseDTO(atualizado);
     }
 
+    public List<Aluno> listarPorAtivo(Boolean ativo) {
+        return alunoRepository.findByAtivo(ativo);
+    }
+
 }

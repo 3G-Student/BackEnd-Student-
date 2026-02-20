@@ -4,6 +4,8 @@ import com.example.cadastroaluno.model.Aluno;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface AlunoRepository extends JpaRepository<Aluno, Integer> {
 
@@ -11,4 +13,6 @@ public interface AlunoRepository extends JpaRepository<Aluno, Integer> {
     boolean existsByMatricula(String matricula);
 
     boolean existsByUsuario_IdUsuario(Integer usuarioId);
+
+    List<Aluno> findByAtivo(Boolean ativo);
 }
