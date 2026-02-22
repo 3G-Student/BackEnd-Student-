@@ -3,6 +3,7 @@ package com.example.cadastroaluno.controller;
 import com.example.cadastroaluno.dto.request.AlunoRequestDTO;
 import com.example.cadastroaluno.dto.response.AlunoResponseDTO;
 import com.example.cadastroaluno.model.Aluno;
+import com.example.cadastroaluno.model.Disciplina;
 import com.example.cadastroaluno.service.AlunoService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
@@ -61,5 +62,13 @@ public class AlunoController {
             @RequestParam Boolean ativo) {
 
         return ResponseEntity.ok(alunoService.listarPorAtivo(ativo));
+    }
+
+    //Query
+    @GetMapping("/buscarDisciplinas/{id}")
+    public ResponseEntity<List<Disciplina>> listarDisciplinas(
+            @PathVariable Integer id) {
+        List<Disciplina> disciplinas = alunoService.listarDisciplinasPorAluno(id);
+        return ResponseEntity.ok(disciplinas);
     }
 }

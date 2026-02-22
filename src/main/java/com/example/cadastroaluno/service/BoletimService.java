@@ -11,25 +11,19 @@ import com.example.cadastroaluno.model.Disciplina;
 import com.example.cadastroaluno.repository.AlunoRepository;
 import com.example.cadastroaluno.repository.BoletimRepository;
 import com.example.cadastroaluno.repository.DisciplinaRepository;
-import jakarta.persistence.Column;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class BoletimService {
     private final BoletimRepository boletimRepository;
     private final DisciplinaRepository discplinaRepository;
     private final AlunoRepository alunoRepository;
-
-    public BoletimService(BoletimRepository boletimRepository, DisciplinaRepository disciplinaRepository,
-                          AlunoRepository alunoRepository) {
-        this.boletimRepository = boletimRepository;
-        this.discplinaRepository = disciplinaRepository;
-        this.alunoRepository = alunoRepository;
-    }
 
     private Boletim toEntity(BoletimRequestDTO dto) {
         Boletim boletim = new Boletim();

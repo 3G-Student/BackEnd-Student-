@@ -12,21 +12,18 @@ import com.example.cadastroaluno.repository.ProfessorRepository;
 import com.example.cadastroaluno.repository.DisciplinaRepository;
 import com.example.cadastroaluno.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ProfessorService {
 
 
     private final ProfessorRepository professorRepository;
     private final UsuarioRepository usuarioRepository;
-
-    public ProfessorService(ProfessorRepository professorRepository, UsuarioRepository usuarioRepository) {
-        this.professorRepository = professorRepository;
-        this.usuarioRepository = usuarioRepository;
-    }
 
     private Professor toEntity(ProfessorRequestDTO dto) {
         Professor professor = new Professor();
