@@ -5,18 +5,16 @@ import com.example.cadastroaluno.model.ProfessorDisciplina;
 import com.example.cadastroaluno.model.ProfessorDisciplinaId;
 import com.example.cadastroaluno.repository.ProfessorDisciplinaRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ProfessorDisciplinaService {
 
     private final ProfessorDisciplinaRepository professorDisciplinaRepository;
-
-    public ProfessorDisciplinaService(ProfessorDisciplinaRepository professorDisciplinaRepository) {
-        this.professorDisciplinaRepository = professorDisciplinaRepository;
-    }
 
     private ProfessorDisciplinaResponseDTO toResponseDTO(ProfessorDisciplina entity) {
         ProfessorDisciplinaResponseDTO dto = new ProfessorDisciplinaResponseDTO();

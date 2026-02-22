@@ -6,18 +6,16 @@ import com.example.cadastroaluno.exception.TipoUsuarioNaoEncontradoException;
 import com.example.cadastroaluno.model.TipoUsuario;
 import com.example.cadastroaluno.repository.TipoUsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class TipoUsuarioService {
 
     private final TipoUsuarioRepository tipoUsuarioRepository;
-
-    public TipoUsuarioService(TipoUsuarioRepository tipoUsuarioRepository) {
-        this.tipoUsuarioRepository = tipoUsuarioRepository;
-    }
 
     private TipoUsuario toEntity(TipoUsuarioRequestDTO dto) {
         TipoUsuario tipoUsuario = new TipoUsuario();

@@ -12,20 +12,17 @@ import com.example.cadastroaluno.model.Usuario;
 import com.example.cadastroaluno.repository.SecretarioAdmRepository;
 import com.example.cadastroaluno.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class SecretarioAdmService {
 
     private final SecretarioAdmRepository secretarioAdmRepository;
     private final UsuarioRepository usuarioRepository;
-
-    public SecretarioAdmService(SecretarioAdmRepository secretarioAdmRepository, UsuarioRepository usuarioRepository) {
-        this.secretarioAdmRepository = secretarioAdmRepository;
-        this.usuarioRepository = usuarioRepository;
-    }
 
     private SecretarioAdm toEntity(SecretarioAdmRequestDTO dto) {
         SecretarioAdm secretarioAdm = new SecretarioAdm();

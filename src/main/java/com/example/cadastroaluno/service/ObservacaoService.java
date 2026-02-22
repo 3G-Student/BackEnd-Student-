@@ -14,23 +14,18 @@ import com.example.cadastroaluno.repository.AlunoRepository;
 import com.example.cadastroaluno.repository.ObservacaoRepository;
 import com.example.cadastroaluno.repository.ProfessorRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class ObservacaoService {
 
     private final ObservacaoRepository ObservacaoRepository;
     private final ProfessorRepository professorRepository;
     private final AlunoRepository alunoRepository;
-
-    public ObservacaoService(ObservacaoRepository ObservacaoRepository, ProfessorRepository professorRepository,
-                          AlunoRepository alunoRepository) {
-        this.ObservacaoRepository = ObservacaoRepository;
-        this.professorRepository = professorRepository;
-        this.alunoRepository = alunoRepository;
-    }
 
     private Observacao toEntity(ObservacaoRequestDTO dto) {
         Observacao observacao = new Observacao();
