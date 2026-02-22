@@ -56,6 +56,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
+    @ExceptionHandler(NomeDuplicadoException.class)
+    public ResponseEntity<String> tratarNomeDuplicado(NomeDuplicadoException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
     @ExceptionHandler(MatriculaDuplicadaException.class)
     public ResponseEntity<String> tratarMatriculaDuplicada(MatriculaDuplicadaException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());

@@ -4,21 +4,20 @@ import com.example.cadastroaluno.dto.request.DisciplinaRequestDTO;
 import com.example.cadastroaluno.dto.response.DisciplinaResponseDTO;
 import com.example.cadastroaluno.exception.DisciplinaNaoEncontradaException;
 import com.example.cadastroaluno.exception.MatriculaDuplicadaException;
+import com.example.cadastroaluno.exception.NomeDuplicadoException;
 import com.example.cadastroaluno.model.Disciplina;
 import com.example.cadastroaluno.repository.DisciplinaRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class DisciplinaService {
 
     private final DisciplinaRepository disciplinaRepository;
-
-    public DisciplinaService(DisciplinaRepository disciplinaRepository) {
-        this.disciplinaRepository = disciplinaRepository;
-    }
 
     private Disciplina toEntity(DisciplinaRequestDTO dto) {
         Disciplina disciplina = new Disciplina();
@@ -50,9 +49,9 @@ public class DisciplinaService {
     }
 
     public DisciplinaResponseDTO cadastrarDisciplina(DisciplinaRequestDTO dto) {
-//        if (disciplinaRepository.existsByNome(dto.getNome())) {
-//            throw new NomeDuplicadoException(dto.getNome());
-//        }
+        if (disciplinaRepository.existsByNome(dto.getNome())) {
+            throw new NomeDuplicadoException(dto.getNome());
+        }
 
         Disciplina disciplina = toEntity(dto);
         disciplina = disciplinaRepository.save(disciplina);

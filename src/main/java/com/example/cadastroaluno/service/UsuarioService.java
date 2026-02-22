@@ -14,6 +14,7 @@ import com.example.cadastroaluno.model.Usuario;
 import com.example.cadastroaluno.repository.TipoUsuarioRepository;
 import com.example.cadastroaluno.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,18 +22,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final TipoUsuarioRepository tipoUsuarioRepository;
     private final PasswordEncoder passwordEncoder;
-
-    public UsuarioService(UsuarioRepository usuarioRepository, TipoUsuarioRepository tipoUsuarioRepository,
-                          PasswordEncoder passwordEncoder) {
-        this.usuarioRepository = usuarioRepository;
-        this.tipoUsuarioRepository = tipoUsuarioRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     private Usuario toEntity(UsuarioRequestDTO dto) {
         Usuario usuario = new Usuario();

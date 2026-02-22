@@ -1,8 +1,8 @@
 package com.example.cadastroaluno.exception;
 
-public class EmailDuplicadoException extends RuntimeException {
-    public EmailDuplicadoException(String email) {
-        super("O email '" + email + "' já está cadastrado.");
+public class NomeDuplicadoException extends RuntimeException {
+    public NomeDuplicadoException(String nome) {
+        super("A disciplina " + nome + " já existe");
     }
 }
 

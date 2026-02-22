@@ -4,24 +4,24 @@ import com.example.cadastroaluno.dto.request.AlunoRequestDTO;
 import com.example.cadastroaluno.dto.response.AlunoResponseDTO;
 import com.example.cadastroaluno.exception.*;
 import com.example.cadastroaluno.model.Aluno;
+import com.example.cadastroaluno.model.Disciplina;
 import com.example.cadastroaluno.model.Usuario;
 import com.example.cadastroaluno.repository.AlunoRepository;
+import com.example.cadastroaluno.repository.BoletimRepository;
 import com.example.cadastroaluno.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class AlunoService {
 
     private final AlunoRepository alunoRepository;
     private final UsuarioRepository usuarioRepository;
-
-    public AlunoService(AlunoRepository alunoRepository, UsuarioRepository usuarioRepository) {
-        this.alunoRepository = alunoRepository;
-        this.usuarioRepository = usuarioRepository;
-    }
+    private final BoletimRepository boletimRepository;
 
     private Aluno toEntity(AlunoRequestDTO dto) {
         Aluno aluno = new Aluno();
@@ -119,6 +119,12 @@ public class AlunoService {
 
     public List<Aluno> listarPorAtivo(Boolean ativo) {
         return alunoRepository.findByAtivo(ativo);
+    }
+
+    //Query
+
+    public List<Disciplina> listarDisciplinasPorAluno(Integer idAluno) {
+        return boletimRepository.findDisciplinasPorAluno(idAluno);
     }
 
 }
