@@ -39,7 +39,7 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/api/Usuario/cadastrar",
-                                "api/Usuario/login"
+                                "/api/Usuario/login"
                         ).permitAll()
 
                         // Apenas ALUNO
