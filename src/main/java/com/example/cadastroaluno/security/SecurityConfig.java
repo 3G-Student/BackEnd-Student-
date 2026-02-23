@@ -34,11 +34,30 @@ public class SecurityConfig {
                 .cors(cors -> {})
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
-                                "/api/Usuario/cadastrar"
+                                "/api/Usuario/cadastrar",
+                                "api/Usuario/login"
                         ).permitAll()
+
+                        // Apenas ALUNO
+                        .requestMatchers("/api/aluno/**", "/api/boletim/**", "/api/Disciplina/**",
+                                "/api/Observacao/**", "/api/TipoUsuario/**", "/api/Usuario/**")
+                        .hasRole("ALUNO")
+
+                        // Apenas PROFESSOR
+                        .requestMatchers("/api/Professor/**", "/api/boletim/**", "/api/aluno/**",
+                                "/api/Disciplina/**", "/api/Observacao/**", "/api/ProfessorDisciplina/**",
+                                "/api/TipoUsuario/**", "/api/Usuario/**")
+                        .hasRole("PROFESSOR")
+
+                        // Apenas SECRETARIO
+                        .requestMatchers("/api/**")
+                        .hasRole("SECRETARIO")
+
+                        // Qualquer outro precisa estar autenticado
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
