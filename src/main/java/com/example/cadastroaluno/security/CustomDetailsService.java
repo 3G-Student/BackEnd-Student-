@@ -1,5 +1,4 @@
 package com.example.cadastroaluno.security;
-
 import com.example.cadastroaluno.model.Usuario;
 import com.example.cadastroaluno.repository.UsuarioRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,13 +18,16 @@ public class CustomDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
+        String role = "ROLE_" + usuario.getTipoUsuario().getDescricao().toUpperCase();
+
         return org.springframework.security.core.userdetails.User
                 .withUsername(usuario.getEmail())
-                .password(usuario.getSenha()) // senha já criptografada no banco
-                .authorities("ROLE_User")
+                .password(usuario.getSenha())
+                .authorities(role)
                 .build();
     }
 }

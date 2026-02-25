@@ -1,5 +1,4 @@
 package com.example.cadastroaluno.security;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,22 +41,23 @@ public class SecurityConfig {
                                 "/api/Usuario/login"
                         ).permitAll()
 
-                        // Apenas ALUNO
-                        .requestMatchers("/api/aluno/**", "/api/boletim/**", "/api/Disciplina/**",
-                                "/api/Observacao/**", "/api/TipoUsuario/**", "/api/Usuario/**")
-                        .hasRole("ALUNO")
-
-                        // Apenas PROFESSOR
-                        .requestMatchers("/api/Professor/**", "/api/boletim/**", "/api/aluno/**",
-                                "/api/Disciplina/**", "/api/Observacao/**", "/api/ProfessorDisciplina/**",
-                                "/api/TipoUsuario/**", "/api/Usuario/**")
-                        .hasRole("PROFESSOR")
-
-                        // Apenas SECRETARIO
                         .requestMatchers("/api/**")
                         .hasRole("SECRETARIO")
 
-                        // Qualquer outro precisa estar autenticado
+                        .requestMatchers(
+                                "/api/Professor/**",
+                                "/api/ProfessorDisciplina/**"
+                        ).hasRole("PROFESSOR")
+
+                        .requestMatchers(
+                                "/api/boletim/**",
+                                "/api/Disciplina/**",
+                                "/api/Observacao/**",
+                                "/api/aluno/**"
+                        ).hasAnyRole("PROFESSOR", "ALUNO")
+
+                        .requestMatchers("/api/aluno/**")
+                        .hasRole("ALUNO")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
