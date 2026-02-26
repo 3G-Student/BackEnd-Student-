@@ -6,7 +6,6 @@ import com.example.cadastroaluno.dto.response.ObservacaoResponseDTO;
 import com.example.cadastroaluno.service.ObservacaoService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
-import jakarta.validation.groups.Default;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -54,4 +53,13 @@ public class ObservacaoController {
         observacaoService.excluirObservacao(id);
         return ResponseEntity.ok("Observacao excluído com sucesso!");
     }
+
+    //Métodos derivados
+    @GetMapping("/buscarObservacoesPorIdAluno/{id}")
+    public ResponseEntity<List<ObservacaoResponseDTO>> listarObsPorIdAluno(
+            @PathVariable Integer id) {
+        List<ObservacaoResponseDTO> observacao = observacaoService.listarObsPorIdAluno(id);
+        return ResponseEntity.ok(observacao);
+    }
+
 }

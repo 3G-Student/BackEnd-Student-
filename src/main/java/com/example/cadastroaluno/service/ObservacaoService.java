@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 public class ObservacaoService {
 
-    private final ObservacaoRepository ObservacaoRepository;
+    private final ObservacaoRepository observacaoRepository;
     private final ProfessorRepository professorRepository;
     private final AlunoRepository alunoRepository;
 
@@ -51,6 +51,7 @@ public class ObservacaoService {
         dto.setIdObservacao(observacao.getIdObservacao());
         dto.setDescricao(observacao.getDescricao());
         dto.setDataObs(observacao.getDataObs());
+        dto.setNotificacaoLida(observacao.getNotificacaoLida());
         dto.setProfessorId(observacao.getProfessor().getIdProfessor());
         dto.setAlunoId(observacao.getAluno().getIdAluno());
 
@@ -68,12 +69,12 @@ public class ObservacaoService {
     }
 
     public ObservacaoResponseDTO buscarPorId(Integer id){
-        Observacao observacao= ObservacaoRepository.findById(id)
+        Observacao observacao= observacaoRepository.findById(id)
                 .orElseThrow(() -> new ObservacaoNaoEncontradaException(id));
         return toResponseDTO(observacao);
     }
     public List<ObservacaoResponseDTO> listarObservacao() {
-        return ObservacaoRepository.findAll()
+        return observacaoRepository.findAll()
                 .stream()
                 .map(this::toResponseDTO)
                 .toList();
@@ -81,19 +82,18 @@ public class ObservacaoService {
 
     public ObservacaoResponseDTO cadastrarObservacao(ObservacaoRequestDTO dto) {
         Observacao observacao = toEntity(dto);
-        observacao = ObservacaoRepository.save(observacao);
-        return toResponseDTO(observacao);
+        return toResponseDTO(observacaoRepository.save(observacao));
     }
 
     public void excluirObservacao(Integer id) {
-        Observacao observacao = ObservacaoRepository.findById(id)
+        Observacao observacao = observacaoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Observacao com ID " + id + " não encontrado"));
 
-        ObservacaoRepository.delete(observacao);
+        observacaoRepository.delete(observacao);
     }
 
     public ObservacaoUpdateResponseDTO atualizarObservacao(Integer id, ObservacaoUpdateRequestDTO dto) {
-        Observacao observacao = ObservacaoRepository.findById(id)
+        Observacao observacao = observacaoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Observacao com ID " + id + " não encontrado"));
 
         if (dto.getDescricao() != null) {
@@ -103,8 +103,17 @@ public class ObservacaoService {
             observacao.setDataObs(dto.getDataObs());
         }
 
-        Observacao atualizado = ObservacaoRepository.save(observacao);
+        Observacao atualizado = observacaoRepository.save(observacao);
         return toUpdateResponseDTO(atualizado);
+    }
+
+    //Métodos derivados
+
+    public List<ObservacaoResponseDTO> listarObsPorIdAluno(Integer alunoId){
+        return observacaoRepository.findByAluno_IdAluno(alunoId)
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
     }
     
 }

@@ -17,4 +17,6 @@ public class ObservacaoUpdateRequestDTO {
     @FutureOrPresent(message = "A data da observação não pode ser no passado", groups = OnCreate.class)
     @NotNull(message = "A data da observação é obrigatória", groups = OnCreate.class)
     private LocalDate dataObs;
+
+    private Boolean notificacaoLida;
 }
