@@ -13,7 +13,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     Optional<Usuario> findByEmail(String email);
 
     @Query(value = """
-        SELECT a.nome, u.email, u.senha
+        SELECT a.nome, u.email
         FROM usuario u
         JOIN aluno a ON a.usuario_id = u.id_usuario
         WHERE u.id_usuario = :id
