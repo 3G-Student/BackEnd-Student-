@@ -2,6 +2,7 @@ package com.example.cadastroaluno.service;
 
 import com.example.cadastroaluno.dto.request.AlunoRequestDTO;
 import com.example.cadastroaluno.dto.response.AlunoResponseDTO;
+import com.example.cadastroaluno.dto.response.DisciplinaResponseDTO;
 import com.example.cadastroaluno.exception.*;
 import com.example.cadastroaluno.model.Aluno;
 import com.example.cadastroaluno.model.Disciplina;
@@ -46,6 +47,15 @@ public class AlunoService {
         dto.setMatricula(aluno.getMatricula());
         dto.setAtivo(aluno.getAtivo());
         dto.setUsuarioId(aluno.getUsuario().getIdUsuario());
+
+        return dto;
+    }
+
+    private DisciplinaResponseDTO toDisciplinaResponseDTO(Disciplina disciplina) {
+        DisciplinaResponseDTO dto = new DisciplinaResponseDTO();
+
+        dto.setIdDisciplina(disciplina.getIdDisciplina());
+        dto.setNome(disciplina.getNome());
 
         return dto;
     }
@@ -117,14 +127,20 @@ public class AlunoService {
         return toResponseDTO(atualizado);
     }
 
-    public List<Aluno> listarPorAtivo(Boolean ativo) {
-        return alunoRepository.findByAtivo(ativo);
+    //Métodos derivados
+    public List<AlunoResponseDTO> listarPorAtivo(Boolean ativo) {
+        return alunoRepository.findByAtivo(ativo)
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
     }
 
     //Query
 
-    public List<Disciplina> listarDisciplinasPorAluno(Integer idAluno) {
-        return boletimRepository.findDisciplinasPorAluno(idAluno);
+    public List<DisciplinaResponseDTO> listarDisciplinasPorAluno(Integer idAluno) {
+        return boletimRepository.findDisciplinasPorAluno(idAluno)
+                .stream()
+                .map(this::toDisciplinaResponseDTO)
+                .toList();
     }
-
 }

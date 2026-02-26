@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @Entity
@@ -19,6 +18,9 @@ public class Observacao {
     private String descricao;
 
     private LocalDate dataObs;
+
+    @Column(name = "lida", nullable = false)
+    private Boolean notificacaoLida = false;
 
     @ManyToOne
     @JoinColumn(name = "id_aluno", nullable = false)

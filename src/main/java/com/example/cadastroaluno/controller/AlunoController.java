@@ -2,8 +2,7 @@ package com.example.cadastroaluno.controller;
 
 import com.example.cadastroaluno.dto.request.AlunoRequestDTO;
 import com.example.cadastroaluno.dto.response.AlunoResponseDTO;
-import com.example.cadastroaluno.model.Aluno;
-import com.example.cadastroaluno.model.Disciplina;
+import com.example.cadastroaluno.dto.response.DisciplinaResponseDTO;
 import com.example.cadastroaluno.service.AlunoService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
@@ -58,17 +57,17 @@ public class AlunoController {
     }
 
     @GetMapping("/alunosAtivos")
-    public ResponseEntity<List<Aluno>> listarPorAtivo(
+    public ResponseEntity<List<AlunoResponseDTO>> listarPorAtivo(
             @RequestParam Boolean ativo) {
 
         return ResponseEntity.ok(alunoService.listarPorAtivo(ativo));
     }
 
     //Query
-    @GetMapping("/buscarDisciplinas/{id}")
-    public ResponseEntity<List<Disciplina>> listarDisciplinas(
+    @GetMapping("/buscarDisciplinasPorIdAluno/{id}")
+    public ResponseEntity<List<DisciplinaResponseDTO>> listarDisciplinas(
             @PathVariable Integer id) {
-        List<Disciplina> disciplinas = alunoService.listarDisciplinasPorAluno(id);
+        List<DisciplinaResponseDTO> disciplinas = alunoService.listarDisciplinasPorAluno(id);
         return ResponseEntity.ok(disciplinas);
     }
 }

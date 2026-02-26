@@ -13,4 +13,6 @@ public class ObservacaoUpdateResponseDTO {
 
     private LocalDate dataObs;
 
+    private Boolean notificacaoLida;
+
 }
