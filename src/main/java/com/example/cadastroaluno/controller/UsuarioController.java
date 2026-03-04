@@ -4,6 +4,7 @@ import com.example.cadastroaluno.dto.request.SenhaRequestDTO;
 import com.example.cadastroaluno.dto.request.UsuarioLoginDTO;
 import com.example.cadastroaluno.dto.request.UsuarioRequestDTO;
 import com.example.cadastroaluno.dto.request.UsuarioUpdateRequestDTO;
+import com.example.cadastroaluno.dto.response.LoginResponseDTO;
 import com.example.cadastroaluno.dto.response.PerfilUsuarioResponseDTO;
 import com.example.cadastroaluno.dto.response.UsuarioResponseDTO;
 import com.example.cadastroaluno.service.UsuarioService;
@@ -82,12 +83,12 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UsuarioLoginDTO loginDTO) {
-        Integer tipoUsuarioId = usuarioService.validarLogin(loginDTO);
-        if (tipoUsuarioId == null) {
+        LoginResponseDTO usuario = usuarioService.validarLogin(loginDTO);
+        if (usuario == null) {
             return ResponseEntity .status(HttpStatus.UNAUTHORIZED)
                     .body("Email ou senha inválidos");
         }
-        return ResponseEntity.ok(tipoUsuarioId);
+        return ResponseEntity.ok(usuario);
     }
 
 }

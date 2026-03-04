@@ -3,6 +3,7 @@ package com.example.cadastroaluno.service;
 import com.example.cadastroaluno.dto.request.UsuarioLoginDTO;
 import com.example.cadastroaluno.dto.request.UsuarioRequestDTO;
 import com.example.cadastroaluno.dto.request.UsuarioUpdateRequestDTO;
+import com.example.cadastroaluno.dto.response.LoginResponseDTO;
 import com.example.cadastroaluno.dto.response.PerfilUsuarioResponseDTO;
 import com.example.cadastroaluno.dto.response.UsuarioResponseDTO;
 import com.example.cadastroaluno.dto.response.UsuarioUpdateResponseDTO;
@@ -110,7 +111,7 @@ public class UsuarioService {
         return usuarioRepository.buscarPerfilUsuario(id);
     }
 
-    public Integer validarLogin(UsuarioLoginDTO loginDTO) {
+    public LoginResponseDTO validarLogin(UsuarioLoginDTO loginDTO) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByLogin(loginDTO.getEmail());
 
         if (usuarioOpt.isEmpty()) {
@@ -126,7 +127,10 @@ public class UsuarioService {
             return null;
         }
 
-        return usuario.getTipoUsuario().getIdTipo();
+        return new LoginResponseDTO(
+                usuario.getIdUsuario(),
+                usuario.getTipoUsuario().getIdTipo()
+        );
     }
 
     public UsuarioResponseDTO atualizarSenha(Integer id, String novaSenha) {
