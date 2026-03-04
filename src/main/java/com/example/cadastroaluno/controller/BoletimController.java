@@ -6,6 +6,7 @@ import com.example.cadastroaluno.service.BoletimService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
 import jakarta.validation.groups.Default;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/boletim")
+@AllArgsConstructor
 public class BoletimController {
 
     private final BoletimService boletimService;
-
-    public BoletimController(BoletimService service) {
-        this.boletimService = service;
-    }
 
     //    Métodos comuns
     @GetMapping("buscarPorId/{id}")

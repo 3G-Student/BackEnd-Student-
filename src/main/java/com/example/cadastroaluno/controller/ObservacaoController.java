@@ -6,6 +6,7 @@ import com.example.cadastroaluno.dto.response.ObservacaoResponseDTO;
 import com.example.cadastroaluno.service.ObservacaoService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/Observacao")
+@AllArgsConstructor
 public class ObservacaoController {
-    private final ObservacaoService observacaoService;
 
-    public ObservacaoController(ObservacaoService service) {
-        this.observacaoService = service;
-    }
+    private final ObservacaoService observacaoService;
 
     //    Métodos comuns
     @GetMapping("buscarPorId/{id}")
