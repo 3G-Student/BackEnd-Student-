@@ -1,11 +1,16 @@
 package com.example.cadastroaluno.controller;
 
 import com.example.cadastroaluno.dto.request.ProfessorRequestDTO;
+import com.example.cadastroaluno.dto.response.AlunoRecuperacaoResponseDTO;
+import com.example.cadastroaluno.dto.response.DisciplinaResponseDTO;
 import com.example.cadastroaluno.dto.response.ProfessorResponseDTO;
+import com.example.cadastroaluno.service.BoletimService;
 import com.example.cadastroaluno.service.ProfessorService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
 import jakarta.validation.groups.Default;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +19,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/Professor")
+@AllArgsConstructor
 public class ProfessorController {
-    private final ProfessorService professorService;
 
-    public ProfessorController(ProfessorService service) {
-        this.professorService = service;
-    }
+    private final ProfessorService professorService;
 
     //    Métodos comuns
     @GetMapping("buscarPorId/{id}")
@@ -53,4 +56,13 @@ public class ProfessorController {
         professorService.excluirProfessor(id);
         return ResponseEntity.ok("Professor excluído com sucesso!");
     }
+
+    //Query
+    @GetMapping("/buscarAlunosDeRecuperacaoPorIdProfessor/{id}")
+    public ResponseEntity<List<AlunoRecuperacaoResponseDTO>> listarAlunosDeRecuperacao(
+            @PathVariable Integer id) {
+        List<AlunoRecuperacaoResponseDTO> alunos = professorService.listarAlunosDeRecuperacao(id);
+        return ResponseEntity.ok(alunos);
+    }
+
 }

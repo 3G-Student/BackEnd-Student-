@@ -6,6 +6,7 @@ import com.example.cadastroaluno.service.DisciplinaService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
 import jakarta.validation.groups.Default;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/Disciplina")
+@AllArgsConstructor
 public class DisciplinaController {
-    private final DisciplinaService disciplinaService;
 
-    public DisciplinaController(DisciplinaService service) {
-        this.disciplinaService = service;
-    }
+    private final DisciplinaService disciplinaService;
 
     //    Métodos comuns
     @GetMapping("buscarPorId/{id}")

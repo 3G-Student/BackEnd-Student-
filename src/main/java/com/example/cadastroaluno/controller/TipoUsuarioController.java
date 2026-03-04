@@ -6,6 +6,7 @@ import com.example.cadastroaluno.service.TipoUsuarioService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
 import jakarta.validation.groups.Default;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/TipoUsuario")
+@AllArgsConstructor
 public class TipoUsuarioController {
-    private final TipoUsuarioService tipoUsuarioService;
 
-    public TipoUsuarioController(TipoUsuarioService service) {
-        this.tipoUsuarioService = service;
-    }
+    private final TipoUsuarioService tipoUsuarioService;
 
     //    Métodos comuns
     @GetMapping("buscarPorId/{id}")

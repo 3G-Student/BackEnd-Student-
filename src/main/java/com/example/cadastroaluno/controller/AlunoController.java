@@ -7,6 +7,7 @@ import com.example.cadastroaluno.service.AlunoService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
 import jakarta.validation.groups.Default;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,15 +16,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/aluno")
+@AllArgsConstructor
 public class AlunoController {
 
     private final AlunoService alunoService;
 
-    public AlunoController(AlunoService service) {
-        this.alunoService = service;
-    }
-
-    //    Métodos comuns
+    // Métodos comuns
     @GetMapping("buscarPorId/{id}")
     public ResponseEntity<AlunoResponseDTO> buscarAlunoPorId(@PathVariable Integer id) {
         AlunoResponseDTO aluno = alunoService.buscarPorId(id);
@@ -70,4 +68,5 @@ public class AlunoController {
         List<DisciplinaResponseDTO> disciplinas = alunoService.listarDisciplinasPorAluno(id);
         return ResponseEntity.ok(disciplinas);
     }
+
 }

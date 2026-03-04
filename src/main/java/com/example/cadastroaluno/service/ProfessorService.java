@@ -1,16 +1,15 @@
 package com.example.cadastroaluno.service;
 
 import com.example.cadastroaluno.dto.request.ProfessorRequestDTO;
+import com.example.cadastroaluno.dto.response.AlunoRecuperacaoResponseDTO;
+import com.example.cadastroaluno.dto.response.DisciplinaResponseDTO;
 import com.example.cadastroaluno.dto.response.ProfessorResponseDTO;
 import com.example.cadastroaluno.exception.*;
 import com.example.cadastroaluno.model.Aluno;
 import com.example.cadastroaluno.model.Professor;
 import com.example.cadastroaluno.model.Disciplina;
 import com.example.cadastroaluno.model.Usuario;
-import com.example.cadastroaluno.repository.AlunoRepository;
-import com.example.cadastroaluno.repository.ProfessorRepository;
-import com.example.cadastroaluno.repository.DisciplinaRepository;
-import com.example.cadastroaluno.repository.UsuarioRepository;
+import com.example.cadastroaluno.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,9 +20,9 @@ import java.util.List;
 @AllArgsConstructor
 public class ProfessorService {
 
-
     private final ProfessorRepository professorRepository;
     private final UsuarioRepository usuarioRepository;
+    private final BoletimRepository boletimRepository;
 
     private Professor toEntity(ProfessorRequestDTO dto) {
         Professor professor = new Professor();
@@ -109,6 +108,12 @@ public class ProfessorService {
 
         Professor atualizado = professorRepository.save(professor);
         return toResponseDTO(atualizado);
+    }
+
+    //Query
+
+    public List<AlunoRecuperacaoResponseDTO> listarAlunosDeRecuperacao(Integer idProfessor) {
+        return boletimRepository.buscarAlunosDeRecuperacao(idProfessor);
     }
 
 }

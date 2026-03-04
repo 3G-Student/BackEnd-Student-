@@ -11,6 +11,7 @@ import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
 import jakarta.validation.Valid;
 import jakarta.validation.groups.Default;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,12 +21,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/Usuario")
+@AllArgsConstructor
 public class UsuarioController {
-    private final UsuarioService usuarioService;
 
-    public UsuarioController(UsuarioService service) {
-        this.usuarioService = service;
-    }
+    private final UsuarioService usuarioService;
 
     //    Métodos comuns
     @GetMapping("buscarPorId/{id}")
