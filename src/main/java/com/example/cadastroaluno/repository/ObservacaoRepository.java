@@ -8,4 +8,6 @@ import java.util.List;
 public interface ObservacaoRepository extends JpaRepository<Observacao, Integer> {
 
     List<Observacao> findByAluno_IdAluno(Integer idAluno);
+
+    List<Observacao> findByProfessor_IdProfessor(Integer idProfessor);
 }

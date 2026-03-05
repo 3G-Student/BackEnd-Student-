@@ -115,5 +115,12 @@ public class ObservacaoService {
                 .map(this::toResponseDTO)
                 .toList();
     }
+
+    public List<ObservacaoResponseDTO> listarObsPorIdProfessor(Integer ProfessorId){
+        return observacaoRepository.findByProfessor_IdProfessor(ProfessorId)
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
+    }
     
 }

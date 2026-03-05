@@ -1,21 +1,22 @@
 package com.example.cadastroaluno.security;
+
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+@AllArgsConstructor
 @Configuration
 public class SecurityConfig {
 
-    private final CustomDetailsService customDetailsService;
-
-    public SecurityConfig(CustomDetailsService customDetailsService) {
-        this.customDetailsService = customDetailsService;
-    }
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -29,6 +30,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
         http
                 .cors(cors -> {})
                 .csrf(csrf -> csrf.disable())
@@ -41,33 +43,29 @@ public class SecurityConfig {
                                 "/api/Usuario/login"
                         ).permitAll()
 
-                        .requestMatchers("/api/**")
-                        .hasRole("SECRETARIO")
-
                         .requestMatchers(
                                 "/api/Professor/**",
                                 "/api/ProfessorDisciplina/**"
-                        ).hasRole("PROFESSOR")
+                        ).hasAnyRole("PROFESSOR", "SECRETARIO")
+
+                        .requestMatchers("/api/Aluno/**")
+                        .hasAnyRole("ALUNO", "SECRETARIO")
 
                         .requestMatchers(
-                                "/api/boletim/**",
+                                "/api/Boletim/**",
                                 "/api/Disciplina/**",
-                                "/api/Observacao/**",
-                                "/api/aluno/**"
-                        ).hasAnyRole("PROFESSOR", "ALUNO")
+                                "/api/Observacao/**"
+                        ).hasAnyRole("PROFESSOR", "ALUNO", "SECRETARIO")
 
-                        .requestMatchers("/api/aluno/**")
-                        .hasRole("ALUNO")
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/swagger-ui/index.html", true)
-                        .permitAll()
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .logout(logout -> logout.logoutSuccessUrl("/login?logout"));
+                .addFilterBefore(jwtAuthenticationFilter,
+                        UsernamePasswordAuthenticationFilter.class
+                );
 
         return http.build();
     }
-
 }

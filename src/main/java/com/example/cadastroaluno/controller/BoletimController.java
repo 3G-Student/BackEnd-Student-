@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/boletim")
+@RequestMapping("/api/Boletim")
 @AllArgsConstructor
 public class BoletimController {
 

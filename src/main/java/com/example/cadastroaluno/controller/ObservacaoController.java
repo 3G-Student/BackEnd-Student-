@@ -61,4 +61,11 @@ public class ObservacaoController {
         return ResponseEntity.ok(observacao);
     }
 
+    @GetMapping("/buscarObservacoesPorIdProfessor/{id}")
+    public ResponseEntity<List<ObservacaoResponseDTO>> listarObsPorIdProfessor(
+            @PathVariable Integer id) {
+        List<ObservacaoResponseDTO> observacao = observacaoService.listarObsPorIdProfessor(id);
+        return ResponseEntity.ok(observacao);
+    }
+
 }

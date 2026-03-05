@@ -10,12 +10,17 @@ import com.example.cadastroaluno.dto.response.UsuarioUpdateResponseDTO;
 import com.example.cadastroaluno.exception.EmailDuplicadoException;
 import com.example.cadastroaluno.exception.TipoUsuarioNaoEncontradoException;
 import com.example.cadastroaluno.exception.UsuarioNaoEncontradoException;
+import com.example.cadastroaluno.model.SecretarioAdm;
 import com.example.cadastroaluno.model.TipoUsuario;
 import com.example.cadastroaluno.model.Usuario;
-import com.example.cadastroaluno.repository.TipoUsuarioRepository;
-import com.example.cadastroaluno.repository.UsuarioRepository;
+import com.example.cadastroaluno.repository.*;
+import com.example.cadastroaluno.security.CustomDetailsService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +31,19 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UsuarioService {
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private CustomDetailsService customDetailsService;
+
+    @Autowired
+    private JwtService jwtService;
+
     private final UsuarioRepository usuarioRepository;
+    private final SecretarioAdmRepository secretarioAdmRepository;
+    private final AlunoRepository alunoRepository;
+    private final ProfessorRepository professorRepository;
     private final TipoUsuarioRepository tipoUsuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -111,25 +128,58 @@ public class UsuarioService {
         return usuarioRepository.buscarPerfilUsuario(id);
     }
 
-    public LoginResponseDTO validarLogin(UsuarioLoginDTO loginDTO) {
-        Optional<Usuario> usuarioOpt = usuarioRepository.findByLogin(loginDTO.getEmail());
 
-        if (usuarioOpt.isEmpty()) {
-            return null;
+    public LoginResponseDTO validarLogin(UsuarioLoginDTO loginDTO) {
+
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginDTO.getEmail(),
+                        loginDTO.getSenha()
+                )
+        );
+
+        UserDetails userDetails =
+                customDetailsService.loadUserByUsername(loginDTO.getEmail());
+
+        String token = jwtService.gerarToken(userDetails);
+
+        Usuario usuario = usuarioRepository.findByEmail(loginDTO.getEmail())
+                .orElseThrow();
+
+        Integer idProfessor = null;
+        Integer idAluno = null;
+        Integer idSecretario = null;
+
+        String tipo = usuario.getTipoUsuario().getDescricao();
+
+        if (tipo.equals("PROFESSOR")) {
+            idProfessor = professorRepository
+                    .findByUsuario(usuario)
+                    .orElseThrow()
+                    .getIdProfessor();
         }
 
-        Usuario usuario = usuarioOpt.get();
+        if (tipo.equals("ALUNO")) {
+            idAluno = alunoRepository
+                    .findByUsuario(usuario)
+                    .orElseThrow()
+                    .getIdAluno();
+        }
 
-        boolean senhaValida = passwordEncoder
-                .matches(loginDTO.getSenha(), usuario.getSenha());
-
-        if (!senhaValida) {
-            return null;
+        if (tipo.equals("SECRETARIO")) {
+            idSecretario = secretarioAdmRepository
+                    .findByUsuario(usuario)
+                    .orElseThrow()
+                    .getIdSecretario();
         }
 
         return new LoginResponseDTO(
                 usuario.getIdUsuario(),
-                usuario.getTipoUsuario().getIdTipo()
+                usuario.getTipoUsuario().getIdTipo(),
+                idProfessor,
+                idAluno,
+                idSecretario,
+                token
         );
     }
 
