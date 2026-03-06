@@ -2,6 +2,7 @@ package com.example.cadastroaluno.controller;
 
 import com.example.cadastroaluno.dto.request.BoletimRequestDTO;
 import com.example.cadastroaluno.dto.response.BoletimResponseDTO;
+import com.example.cadastroaluno.dto.response.ObservacaoResponseDTO;
 import com.example.cadastroaluno.service.BoletimService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
@@ -51,6 +52,14 @@ public class BoletimController {
     public ResponseEntity<String> excluirBoletim(@PathVariable Integer id) {
         boletimService.excluirBoletim(id);
         return ResponseEntity.ok("Boletim excluído com sucesso!");
+    }
+
+    //Métodos derivados
+    @GetMapping("/buscarBoletimPorIdAluno/{id}")
+    public ResponseEntity<List<BoletimResponseDTO>> listarObsPorIdAluno(
+            @PathVariable Integer id) {
+        List<BoletimResponseDTO> observacao = boletimService.listarBoletimPorIdAluno(id);
+        return ResponseEntity.ok(observacao);
     }
 
 }

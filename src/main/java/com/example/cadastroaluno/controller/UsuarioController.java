@@ -40,10 +40,9 @@ public class UsuarioController {
     }
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<String> inserirUsuario(@Validated({OnCreate.class, Default.class})
+    public UsuarioResponseDTO inserirUsuario(@Validated({OnCreate.class, Default.class})
                                                     @RequestBody UsuarioRequestDTO dto) {
-        usuarioService.cadastrarUsuario(dto);
-        return ResponseEntity.ok("Usuario inserido com sucesso!");
+        return usuarioService.cadastrarUsuario(dto);
     }
 
     @PutMapping("/atualizar/{id}")
