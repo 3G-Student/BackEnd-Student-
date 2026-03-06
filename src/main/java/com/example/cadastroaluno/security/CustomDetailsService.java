@@ -22,7 +22,10 @@ public class CustomDetailsService implements UserDetailsService {
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
-        String role = "ROLE_" + usuario.getTipoUsuario().getDescricao().toUpperCase();
+        String role = "ROLE_" + usuario.getTipoUsuario()
+                .getDescricao()
+                .trim()
+                .toUpperCase();
 
         return org.springframework.security.core.userdetails.User
                 .withUsername(usuario.getEmail())

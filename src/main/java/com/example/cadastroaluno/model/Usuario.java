@@ -22,5 +22,4 @@ public class Usuario {
     @JoinColumn(name = "id_tipo", nullable = false)
     private TipoUsuario tipoUsuario;
 
-
 }

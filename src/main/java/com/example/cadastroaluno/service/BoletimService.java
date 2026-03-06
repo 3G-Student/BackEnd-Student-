@@ -2,6 +2,7 @@ package com.example.cadastroaluno.service;
 
 import com.example.cadastroaluno.dto.request.BoletimRequestDTO;
 import com.example.cadastroaluno.dto.response.BoletimResponseDTO;
+import com.example.cadastroaluno.dto.response.ObservacaoResponseDTO;
 import com.example.cadastroaluno.exception.AlunoNaoEncontradoException;
 import com.example.cadastroaluno.exception.BoletimNaoEncontradoException;
 import com.example.cadastroaluno.exception.DisciplinaNaoEncontradaException;
@@ -110,4 +111,12 @@ public class BoletimService {
         return toResponseDTO(atualizado);
     }
 
+    //Métodos derivados
+
+    public List<BoletimResponseDTO> listarBoletimPorIdAluno(Integer alunoId){
+        return boletimRepository.findByAluno_IdAluno(alunoId)
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
+    }
 }
