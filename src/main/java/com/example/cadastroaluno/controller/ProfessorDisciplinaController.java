@@ -1,27 +1,37 @@
 package com.example.cadastroaluno.controller;
 
+import com.example.cadastroaluno.dto.request.ProfessorDisciplinaRequestDTO;
 import com.example.cadastroaluno.dto.response.ProfessorDisciplinaResponseDTO;
 import com.example.cadastroaluno.service.ProfessorDisciplinaService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/ProfessorDisciplina")
+@RequestMapping("/api/professorDisciplina")
 @AllArgsConstructor
 public class ProfessorDisciplinaController {
 
     private final ProfessorDisciplinaService service;
 
-    @GetMapping
+    @PostMapping("/vincular")
+    public ProfessorDisciplinaResponseDTO vincular(
+            @RequestBody ProfessorDisciplinaRequestDTO dto) {
+        return service.vincular(dto);
+    }
+
+    @GetMapping("/listar")
     public List<ProfessorDisciplinaResponseDTO> listarTodos() {
         return service.listarTodos();
     }
 
-}
+    @DeleteMapping("/remover")
+    public ResponseEntity<String> remover(@RequestParam Integer professorId,
+                        @RequestParam Integer disciplinaId) {
+        service.remover(professorId, disciplinaId);
+        return ResponseEntity.ok("Exclusão feita com sucesso!");
+    }
 
+}
