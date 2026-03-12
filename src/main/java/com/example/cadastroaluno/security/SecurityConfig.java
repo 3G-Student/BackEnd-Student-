@@ -45,19 +45,21 @@ public class SecurityConfig {
                         ).permitAll()
 
                         .requestMatchers(
-                                "/api/Professor/**",
+                                "/api/SecretarioAdm/**"
+                        ).hasAnyRole("SECRETARIO")
+
+                        .requestMatchers(
                                 "/api/ProfessorDisciplina/**"
                         ).hasAnyRole("PROFESSOR", "SECRETARIO")
-
-                        .requestMatchers("/api/Aluno/**")
-                        .hasAnyRole("ALUNO", "SECRETARIO")
 
                         .requestMatchers(
                                 "/api/Boletim/**",
                                 "/api/Disciplina/**",
                                 "/api/Observacao/**",
                                 "/api/TipoUsuario/**",
-                                "/api/Usuario/**"
+                                "/api/Usuario/**",
+                                "/api/Professor/**",
+                                "/api/Aluno/**"
                         ).hasAnyRole("PROFESSOR", "ALUNO", "SECRETARIO")
 
                         .anyRequest().authenticated()
