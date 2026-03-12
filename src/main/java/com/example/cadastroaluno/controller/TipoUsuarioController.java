@@ -2,6 +2,7 @@ package com.example.cadastroaluno.controller;
 
 import com.example.cadastroaluno.dto.request.TipoUsuarioRequestDTO;
 import com.example.cadastroaluno.dto.response.TipoUsuarioResponseDTO;
+import com.example.cadastroaluno.open_api.TipoUsuarioOpenAPI;
 import com.example.cadastroaluno.service.TipoUsuarioService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
@@ -16,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/TipoUsuario")
 @AllArgsConstructor
-public class TipoUsuarioController {
+public class TipoUsuarioController implements TipoUsuarioOpenAPI {
 
     private final TipoUsuarioService tipoUsuarioService;
 

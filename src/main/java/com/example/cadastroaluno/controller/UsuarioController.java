@@ -7,6 +7,7 @@ import com.example.cadastroaluno.dto.request.UsuarioUpdateRequestDTO;
 import com.example.cadastroaluno.dto.response.LoginResponseDTO;
 import com.example.cadastroaluno.dto.response.PerfilUsuarioResponseDTO;
 import com.example.cadastroaluno.dto.response.UsuarioResponseDTO;
+import com.example.cadastroaluno.open_api.UsuarioOpenAPI;
 import com.example.cadastroaluno.service.UsuarioService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
@@ -23,7 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/Usuario")
 @AllArgsConstructor
-public class UsuarioController {
+public class UsuarioController implements UsuarioOpenAPI {
 
     private final UsuarioService usuarioService;
 

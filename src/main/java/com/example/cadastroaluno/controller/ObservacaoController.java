@@ -3,6 +3,7 @@ package com.example.cadastroaluno.controller;
 import com.example.cadastroaluno.dto.request.ObservacaoRequestDTO;
 import com.example.cadastroaluno.dto.request.ObservacaoUpdateRequestDTO;
 import com.example.cadastroaluno.dto.response.ObservacaoResponseDTO;
+import com.example.cadastroaluno.open_api.ObservacaoOpenAPI;
 import com.example.cadastroaluno.service.ObservacaoService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
@@ -16,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/Observacao")
 @AllArgsConstructor
-public class ObservacaoController {
+public class ObservacaoController implements ObservacaoOpenAPI {
 
     private final ObservacaoService observacaoService;
 

@@ -2,6 +2,8 @@ package com.example.cadastroaluno.controller;
 
 import com.example.cadastroaluno.dto.request.SecretarioAdmRequestDTO;
 import com.example.cadastroaluno.dto.response.SecretarioAdmResponseDTO;
+import com.example.cadastroaluno.open_api.SecretarioAdmOpenAPI;
+import com.example.cadastroaluno.repository.SecretarioAdmRepository;
 import com.example.cadastroaluno.service.SecretarioAdmService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
@@ -16,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/SecretarioAdm")
 @AllArgsConstructor
-public class SecretarioAdmController {
+public class SecretarioAdmController implements SecretarioAdmOpenAPI {
 
     private final SecretarioAdmService secretarioAdmService;
 

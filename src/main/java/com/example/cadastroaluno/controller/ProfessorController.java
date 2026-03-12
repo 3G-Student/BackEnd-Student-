@@ -4,6 +4,7 @@ import com.example.cadastroaluno.dto.request.ProfessorRequestDTO;
 import com.example.cadastroaluno.dto.response.AlunoRecuperacaoResponseDTO;
 import com.example.cadastroaluno.dto.response.DisciplinaResponseDTO;
 import com.example.cadastroaluno.dto.response.ProfessorResponseDTO;
+import com.example.cadastroaluno.open_api.ProfessorOpenAPI;
 import com.example.cadastroaluno.service.BoletimService;
 import com.example.cadastroaluno.service.ProfessorService;
 import com.example.cadastroaluno.validation.OnCreate;
@@ -20,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/Professor")
 @AllArgsConstructor
-public class ProfessorController {
+public class ProfessorController implements ProfessorOpenAPI {
 
     private final ProfessorService professorService;
 
