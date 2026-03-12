@@ -3,6 +3,7 @@ package com.example.cadastroaluno.controller;
 import com.example.cadastroaluno.dto.request.AlunoRequestDTO;
 import com.example.cadastroaluno.dto.response.AlunoResponseDTO;
 import com.example.cadastroaluno.dto.response.DisciplinaResponseDTO;
+import com.example.cadastroaluno.open_api.AlunoOpenAPI;
 import com.example.cadastroaluno.service.AlunoService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
@@ -17,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/Aluno")
 @AllArgsConstructor
-public class AlunoController {
+public class AlunoController implements AlunoOpenAPI {
 
     private final AlunoService alunoService;
 

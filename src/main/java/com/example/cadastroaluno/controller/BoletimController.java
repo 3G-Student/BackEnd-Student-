@@ -3,6 +3,7 @@ package com.example.cadastroaluno.controller;
 import com.example.cadastroaluno.dto.request.BoletimRequestDTO;
 import com.example.cadastroaluno.dto.response.BoletimResponseDTO;
 import com.example.cadastroaluno.dto.response.ObservacaoResponseDTO;
+import com.example.cadastroaluno.open_api.BoletimOpenAPI;
 import com.example.cadastroaluno.service.BoletimService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
@@ -17,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/Boletim")
 @AllArgsConstructor
-public class BoletimController {
+public class BoletimController implements BoletimOpenAPI {
 
     private final BoletimService boletimService;
 

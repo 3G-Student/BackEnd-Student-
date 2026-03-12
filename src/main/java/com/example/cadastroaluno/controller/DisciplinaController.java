@@ -2,6 +2,7 @@ package com.example.cadastroaluno.controller;
 
 import com.example.cadastroaluno.dto.request.DisciplinaRequestDTO;
 import com.example.cadastroaluno.dto.response.DisciplinaResponseDTO;
+import com.example.cadastroaluno.open_api.DisciplinaOpenAPI;
 import com.example.cadastroaluno.service.DisciplinaService;
 import com.example.cadastroaluno.validation.OnCreate;
 import com.example.cadastroaluno.validation.OnPatch;
@@ -16,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/Disciplina")
 @AllArgsConstructor
-public class DisciplinaController {
+public class DisciplinaController implements DisciplinaOpenAPI {
 
     private final DisciplinaService disciplinaService;
 
