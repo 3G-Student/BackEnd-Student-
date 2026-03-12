@@ -102,6 +102,9 @@ public class ObservacaoService {
         if (dto.getDataObs() != null) {
             observacao.setDataObs(dto.getDataObs());
         }
+        if (dto.getNotificacaoLida() != null) {
+            observacao.setNotificacaoLida(dto.getNotificacaoLida());
+        }
 
         Observacao atualizado = observacaoRepository.save(observacao);
         return toUpdateResponseDTO(atualizado);
