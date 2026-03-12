@@ -13,9 +13,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     Optional<Usuario> findByEmail(String email);
 
     @Query(value = """
-        SELECT a.nome, u.email
+        SELECT 
+            COALESCE(a.nome, p.nome, s.nome) AS nome,
+            u.email
         FROM usuario u
-        JOIN aluno a ON a.usuario_id = u.id_usuario
+        LEFT JOIN aluno a ON a.usuario_id = u.id_usuario
+        LEFT JOIN professor p ON p.usuario_id = u.id_usuario
+        LEFT JOIN secretario_adm s ON s.usuario_id = u.id_usuario
         WHERE u.id_usuario = :id
         """, nativeQuery = true)
     PerfilUsuarioResponseDTO buscarPerfilUsuario(@Param("id") Integer id);
